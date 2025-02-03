@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BankCardProject</name>
+    </assembly>
+    <members>
+        <member name="M:BankCardProject.Controllers.BankCardsController.GetAll">
+            <summary>
+            Tüm DebitCard'leri getirir.
+            </summary>
+        </member>
+        <member name="M:BankCardProject.Controllers.BankCardsController.GetById(System.Int32)">
+            <summary>
+            Belirli bir DebitCard'i Id'ye göre getirir.
+            </summary>
+        </member>
+        <member name="M:BankCardProject.Controllers.BankCardsController.Create(BankCardProject.DTOs.BankCardDto)">
+            <summary>
+            Yeni bir BankCard oluşturur.
+            </summary>
+        </member>
+        <member name="M:BankCardProject.Controllers.BankCardsController.Update(System.Int32,BankCardProject.DTOs.BankCardDto)">
+            <summary>
+            Mevcut bir BankCard'i günceller.
+            </summary>
+        </member>
+        <member name="M:BankCardProject.Controllers.BankCardsController.Delete(System.Int32)">
+            <summary>
+            Belirli bir DebitCard'i siler.
+            </summary>
+        </member>
+        <member name="M:BankCardProject.Controllers.CreditCardsController.GetAll">
+            <summary>
+            Tüm CreditCard'leri getirir.
+            </summary>
+        </member>
+        <member name="M:BankCardProject.Controllers.CreditCardsController.GetById(System.Int32)">
+            <summary>
+            Belirli bir CreditCard'i Id'ye göre getirir.
+            </summary>
+        </member>
+        <member name="M:BankCardProject.Controllers.CreditCardsController.Create(BankCardProject.DTOs.CreditCardDto)">
+            <summary>
+            Yeni bir CreditCard oluşturur.
+            </summary>
+        </member>
+        <member name="M:BankCardProject.Controllers.CreditCardsController.Update(System.Int32,BankCardProject.DTOs.CreditCardDto)">
+            <summary>
+            Mevcut bir CreditCard'i günceller.
+            </summary>
+        </member>
+        <member name="M:BankCardProject.Controllers.CreditCardsController.Delete(System.Int32)">
+            <summary>
+            Belirli bir CreditCard'i siler.
+            </summary>
+        </member>
+        <member name="T:BankCardProject.Migrations.aa">
+            <inheritdoc />
+        </member>
+        <member name="M:BankCardProject.Migrations.aa.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:BankCardProject.Migrations.aa.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:BankCardProject.Migrations.aa.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

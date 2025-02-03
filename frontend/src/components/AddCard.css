@@ -1,0 +1,64 @@
+/* src/components/AddCard.css */
+
+.add-card-container {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.add-card-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+}
+
+.add-card-form .form-group {
+  margin-bottom: 20px;
+}
+
+.add-card-form label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.add-card-form .form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-card-form .form-check {
+  display: flex;
+  align-items: center;
+}
+
+.add-card-form .form-check-input {
+  margin-right: 10px;
+}
+
+.add-card-form .btn-primary {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+.add-card-form .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.card-fields h3 {
+  margin-top: 20px;
+  margin-bottom: 15px;
+  color: #007bff;
+}
