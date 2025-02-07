@@ -5,8 +5,8 @@ namespace BankCardProject.Services.Interfaces
     {
         Task<List<CreditCardDto>> GetAllCardsAsync();
         Task<CreditCardDto> GetCardByIdAsync(int id);
-        Task<bool> CreateCardAsync(CreditCardDto dto);
-        Task<bool> UpdateCardAsync(int id, CreditCardDto dto);
-        Task<bool> DeleteCardAsync(int id);
+        Task CreateCardAsync(CreditCardDto dto);
+        Task UpdateCardAsync(int id, CreditCardDto dto);
+        Task DeleteCardAsync(int id);
     }
 }

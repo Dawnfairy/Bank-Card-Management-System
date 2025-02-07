@@ -1,5 +1,7 @@
 ﻿using BankCardProject.Data;
+using BankCardProject.Exceptions;
 using BankCardProject.Models;
+using BankCardProject.Properties;
 using BankCardProject.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,58 +18,58 @@ namespace BankCardProject.Repositories.Implementations
 
         public async Task<List<CreditCard>> GetAllAsync()
         {
-            var cardList = await _context.CreditCards.ToListAsync();
+            if (_context == null)
+            {
+                throw new DataAccessException(Resources.ERR1008);
+            }
+            var cardList = await _context.CreditCards.Where(card => card.IsActive == true).ToListAsync();
             return cardList;
         }
 
         public async Task<CreditCard?> GetByIdAsync(int id)
         {
-            return await _context.CreditCards
-                .SingleOrDefaultAsync(c => c.Id == id);
+            if (_context == null)
+            {
+                throw new DataAccessException(Resources.ERR1008);
+            }
+            return await _context.CreditCards.SingleOrDefaultAsync(c => c.Id == id && c.IsActive);
         }
         
-        public async Task<bool> CreateAsync(CreditCard card)
+        public async Task<CreditCard> CreateAsync(CreditCard card)
         {
-            try
+            if (_context == null)
             {
-                await _context.CreditCards.AddAsync(card);
-                await _context.SaveChangesAsync();
-                return true;
+                throw new DataAccessException(Resources.ERR1008);
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            card.IsActive = true;
+            await _context.CreditCards.AddAsync(card);
+            await _context.SaveChangesAsync();
+            return card;
+
         }
 
-        public async Task<bool> UpdateAsync(CreditCard card)
+        public async Task UpdateAsync(CreditCard card)
         {
-            try
+            if (_context == null)
             {
-                _context.CreditCards.Update(card);
-                var changes = await _context.SaveChangesAsync();
-                return true;
+                throw new DataAccessException(Resources.ERR1008);
             }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            _context.CreditCards.Update(card);
+            
+            await _context.SaveChangesAsync();
+            
         }
 
-
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> ExistsAsync(string cardNumber)
         {
-            var existing = await _context.CreditCards.FindAsync(id);
-            if (existing != null)
+            if (_context == null)
             {
-                _context.CreditCards.Remove(existing);
-                await _context.SaveChangesAsync();
-                return true;
+                throw new DataAccessException(Resources.ERR1008);
             }
-            else
-            {
-                return false;
-            }
+            bool isExists = await _context.CreditCards
+                            .AnyAsync(c => c.CardNumber == cardNumber && c.IsActive);
+
+            return isExists;
         }
     }
 }

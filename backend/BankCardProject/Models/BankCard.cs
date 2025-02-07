@@ -4,18 +4,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BankCardProject.Models
 {
-    public class BankCard 
+    public class BankCard
     {
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
         public string CardNumber { get; set; }
         public string CardHolderName { get; set; }
         public DateTime ExpirationDate { get; set; }
         public string CVV { get; set; }
         public string BankName { get; set; }
-        public bool IsActive { get; set; }
-        public DateTime CreatedAt { get; set; }
         public string AccountNumber { get; set; }  // Hesap numarası
         public string IBAN { get; set; }  // IBAN numarası
         

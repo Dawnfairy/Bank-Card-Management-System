@@ -54,17 +54,263 @@
             Belirli bir CreditCard'i siler.
             </summary>
         </member>
-        <member name="T:BankCardProject.Migrations.aa">
+        <member name="T:BankCardProject.Migrations.yeto">
             <inheritdoc />
         </member>
-        <member name="M:BankCardProject.Migrations.aa.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:BankCardProject.Migrations.yeto.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:BankCardProject.Migrations.aa.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:BankCardProject.Migrations.yeto.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:BankCardProject.Migrations.aa.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:BankCardProject.Migrations.yeto.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
+        </member>
+        <member name="T:BankCardProject.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD1000">
+            <summary>
+              Looks up a localized string similar to Kayıt başarıyla oluşturuldu..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD1001">
+            <summary>
+              Looks up a localized string similar to Kayıt oluşturulurken beklenmedik bir hata oluştu..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD1002">
+            <summary>
+              Looks up a localized string similar to Gerekli alanlar eksik; kayıt oluşturulamadı..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD1003">
+            <summary>
+              Looks up a localized string similar to Aynı kayıt zaten mevcut..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD1004">
+            <summary>
+              Looks up a localized string similar to Bu kart numarası zaten kayıtlı..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD2000">
+            <summary>
+              Looks up a localized string similar to Kayıt başarıyla getirildi..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD2001">
+            <summary>
+              Looks up a localized string similar to İstenen kayıt bulunamadı..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD2002">
+            <summary>
+              Looks up a localized string similar to Kayıt getirilirken hata oluştu..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD2003">
+            <summary>
+              Looks up a localized string similar to Veri okunamadı, lütfen tekrar deneyin..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD2004">
+            <summary>
+              Looks up a localized string similar to Kayıt listesi boş..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD3000">
+            <summary>
+              Looks up a localized string similar to Kayıt başarıyla güncellendi..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD3001">
+            <summary>
+              Looks up a localized string similar to Güncellenecek kayıt bulunamadı..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD3002">
+            <summary>
+              Looks up a localized string similar to Gönderilen veri geçersiz; güncelleme yapılamadı..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD3003">
+            <summary>
+              Looks up a localized string similar to Güncelleme sırasında beklenmedik bir hata oluştu..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD4000">
+            <summary>
+              Looks up a localized string similar to Kayıt başarıyla silindi..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD4001">
+            <summary>
+              Looks up a localized string similar to Silinecek kayıt bulunamadı..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD4002">
+            <summary>
+              Looks up a localized string similar to Silme işlemi sırasında hata oluştu..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.CRUD4003">
+            <summary>
+              Looks up a localized string similar to Bu kart zaten pasif durumda..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1001">
+            <summary>
+              Looks up a localized string similar to Kullanıcı doğrulaması başarısız..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1002">
+            <summary>
+              Looks up a localized string similar to Yetkisiz erişim..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1003">
+            <summary>
+              Looks up a localized string similar to Gerekli parametre eksik..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1004">
+            <summary>
+              Looks up a localized string similar to Geçersiz parametre değeri..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1005">
+            <summary>
+              Looks up a localized string similar to Mapping işlemi sırasında beklenmedik bir hata oluştu..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1006">
+            <summary>
+              Looks up a localized string similar to Kayıt bulunamadı..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1007">
+            <summary>
+              Looks up a localized string similar to Sunucu hatası oluştu..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1008">
+            <summary>
+              Looks up a localized string similar to Veritabanı bağlantısı başarısız oldu..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1009">
+            <summary>
+              Looks up a localized string similar to İşlem zaman aşımına uğradı..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1010">
+            <summary>
+              Looks up a localized string similar to Banka kartı listesi boş..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1011">
+            <summary>
+              Looks up a localized string similar to Kullanıcı adı veya şifre yanlış..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1012">
+            <summary>
+              Looks up a localized string similar to Erişim reddedildi..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1013">
+            <summary>
+              Looks up a localized string similar to Silme işlemi sırasında hata meydana geldi..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1014">
+            <summary>
+              Looks up a localized string similar to Güncelleme sırasında bir hata oluştu..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1015">
+            <summary>
+              Looks up a localized string similar to Geçersiz kart ID değeri. ID pozitif bir sayı olmalıdır..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1016">
+            <summary>
+              Looks up a localized string similar to Kayıt zaten mevcut..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1017">
+            <summary>
+              Looks up a localized string similar to Kayıt zaten mevcut..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1018">
+            <summary>
+              Looks up a localized string similar to Kayıt zaten mevcut..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1019">
+            <summary>
+              Looks up a localized string similar to Kayıt zaten mevcut..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1020">
+            <summary>
+              Looks up a localized string similar to Kayıt zaten mevcut..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1021">
+            <summary>
+              Looks up a localized string similar to Kayıt zaten mevcut..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.ERR1022">
+            <summary>
+              Looks up a localized string similar to Kayıt zaten mevcut..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.INFO5000">
+            <summary>
+              Looks up a localized string similar to İşlem başarıyla tamamlandı..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.INFO5001">
+            <summary>
+              Looks up a localized string similar to İşlem devam ediyor, lütfen bekleyiniz..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.INFO5002">
+            <summary>
+              Looks up a localized string similar to Veri güncellendi, lütfen sayfayı yenileyiniz..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.WARN6000">
+            <summary>
+              Looks up a localized string similar to Uyarı: Kayıt üzerinde başka işlemler devam ediyor..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.WARN6001">
+            <summary>
+              Looks up a localized string similar to Dikkat: Veri kilitli, işlem yapılamıyor..
+            </summary>
+        </member>
+        <member name="P:BankCardProject.Properties.Resources.WARN6002">
+            <summary>
+              Looks up a localized string similar to Uyarı: İşlem tamamlanmadan önce lütfen kontrol ediniz..
+            </summary>
         </member>
     </members>
 </doc>

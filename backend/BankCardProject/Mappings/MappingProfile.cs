@@ -12,7 +12,9 @@ namespace BankCardProject.Mappings
             CreateMap<CreditCardDto, CreditCard>().ForMember(dest => dest.Id, opt => opt.Ignore()); // Id'nin maplenmesini engellemek için
             CreateMap<BankCard, BankCardDto>();
             CreateMap<BankCardDto, BankCard>().ForMember(dest => dest.Id, opt => opt.Ignore()); // Id'nin maplenmesini engellemek için
-            
+            CreateMap<User, UserDto>();
+            CreateMap<UserDto, User>().ForMember(dest => dest.Id, opt => opt.Ignore());
+
         }
     }
 }

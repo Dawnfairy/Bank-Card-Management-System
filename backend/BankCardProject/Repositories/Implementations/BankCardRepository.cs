@@ -1,5 +1,7 @@
 ﻿using BankCardProject.Data;
+using BankCardProject.Exceptions;
 using BankCardProject.Models;
+using BankCardProject.Properties;
 using BankCardProject.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,57 +18,56 @@ namespace BankCardProject.Repositories.Implementations
 
         public async Task<List<BankCard>> GetAllAsync()
         {
-            var cardList = await _context.BankCards.ToListAsync();
-            return cardList;
+            if (_context == null)
+            {
+                throw new DataAccessException(Resources.ERR1008);
+            }
+            return await _context.BankCards.Where(card => card.IsActive == true).ToListAsync();
         }
 
         public async Task<BankCard?> GetByIdAsync(int id)
         {
-            return await _context.BankCards
-                .SingleOrDefaultAsync(c => c.Id == id);
+            if (_context == null)
+            {
+                throw new DataAccessException(Resources.ERR1008);
+            }
+            return await _context.BankCards.SingleOrDefaultAsync(c => c.Id == id && c.IsActive);
         }
 
-        public async Task<bool> CreateAsync(BankCard card)
+        public async Task<BankCard> CreateAsync(BankCard card)
         {
-            try
+            if (_context == null)
             {
-                await _context.BankCards.AddAsync(card);
-                await _context.SaveChangesAsync();
-                return true;
+                throw new DataAccessException(Resources.ERR1008);
             }
-            catch (Exception)
-            {
-                return false;
-            }
+            card.IsActive = true;
+            await _context.BankCards.AddAsync(card);
+            await _context.SaveChangesAsync();
+            return card;
         }
 
-        public async Task<bool> UpdateAsync(BankCard card)
+        public async Task UpdateAsync(BankCard card)
         {
-            try
+            if (_context == null)
             {
-                _context.BankCards.Update(card);
-                var changes = await _context.SaveChangesAsync();
-                return true;
+                throw new DataAccessException(Resources.ERR1008);
             }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            _context.BankCards.Update(card);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> DeleteAsync(int id)
+
+        public async Task<bool> ExistsAsync(string cardNumber)
         {
-            var existing = await _context.BankCards.FindAsync(id);
-            if (existing != null)
+            if (_context == null)
             {
-                _context.BankCards.Remove(existing);
-                await _context.SaveChangesAsync();
-                return true;
+                throw new DataAccessException(Resources.ERR1008);
             }
-            else
-            {
-                return false;
-            }
+            bool isExists = await _context.BankCards
+                            .AnyAsync(c => c.CardNumber == cardNumber && c.IsActive);
+
+            return isExists;
         }
     }
 }
+  

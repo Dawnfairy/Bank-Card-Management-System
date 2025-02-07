@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using BankCardProject.DTOs;
+using BankCardProject.Exceptions;
+using BankCardProject.Properties;
 using BankCardProject.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,12 +12,10 @@ namespace BankCardProject.Controllers
     public class CreditCardsController : ControllerBase
     {
         private readonly ICreditCardService _service;
-        private readonly IMapper _mapper;
 
-        public CreditCardsController(ICreditCardService service, IMapper mapper)
+        public CreditCardsController(ICreditCardService service)
         {
             _service = service;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -25,8 +25,6 @@ namespace BankCardProject.Controllers
         public async Task<ActionResult<List<CreditCardDto>>> GetAll()
         {
             var dto = await _service.GetAllCardsAsync();
-            if (dto == null)
-                return NotFound("Kredi kartı listesi boş.");
             return Ok(dto);
 
         }
@@ -37,10 +35,14 @@ namespace BankCardProject.Controllers
         [HttpGet("byId/{id}")]
         public async Task<ActionResult<CreditCardDto>> GetById(int id)
         {
+            if (id <= 0)
+            {
+                throw new InvalidParameterException(Resources.ERR1015);
+            }
             var dto = await _service.GetCardByIdAsync(id);
 
             if (dto == null)
-                return NotFound("Id ile eşleşen kart bilgisi bulunamadı.");
+                throw new NotFoundException(Resources.CRUD2001);
 
             return Ok(dto);
         }
@@ -52,12 +54,9 @@ namespace BankCardProject.Controllers
         public async Task<ActionResult<CreditCardDto>> Create(CreditCardDto dto)
         {
             if (dto == null)
-                return BadRequest("CreditCard bilgileri boş olamaz.");
+                throw new BadRequestException(Resources.CRUD1002);
 
-            bool isCreated = await _service.CreateCardAsync(dto);
-
-            if (!isCreated)
-                return BadRequest("CreditCard oluşturulamadı.");
+            await _service.CreateCardAsync(dto);
 
             return Ok(dto);
         }
@@ -68,17 +67,18 @@ namespace BankCardProject.Controllers
         [HttpPut("updateById/{id}")]
         public async Task<IActionResult> Update(int id, CreditCardDto cardDto)
         {
+            if (id <= 0)
+            {
+                throw new InvalidParameterException(Resources.ERR1015);
+            }
             if (cardDto == null)
             {
-                return BadRequest(new { Message = "Güncelleme verisi sağlanmalıdır." });
+                throw new BadRequestException(Resources.CRUD3002);
             }
 
-            bool isUpdated = await _service.UpdateCardAsync(id, cardDto);
+            await _service.UpdateCardAsync(id, cardDto);
 
-            if (!isUpdated)
-                return BadRequest("CreditCard güncellenemedi.");
-            
-            return Ok("CreditCard başarıyla güncellendi.");
+            return Ok(Resources.CRUD3000);
         }
 
         /// <summary>
@@ -87,11 +87,13 @@ namespace BankCardProject.Controllers
         [HttpDelete("deleteById/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            bool isDeleted = await _service.DeleteCardAsync(id);
-            if (!isDeleted)
-                return BadRequest("CreditCard silinemedi.");
+            if (id <= 0)
+            {
+                throw new InvalidParameterException(Resources.ERR1015);
+            }
+            await _service.DeleteCardAsync(id);
 
-            return Ok(isDeleted);
+            return Ok(Resources.CRUD4000);
         }
     }
 }

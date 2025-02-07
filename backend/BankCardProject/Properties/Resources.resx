@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ERR1001" xml:space="preserve">
+    <value>Kullanıcı doğrulaması başarısız.</value>
+  </data>
+  <data name="ERR1002" xml:space="preserve">
+    <value>Yetkisiz erişim.</value>
+  </data>
+  <data name="ERR1003" xml:space="preserve">
+    <value>Gerekli parametre eksik.</value>
+  </data>
+  <data name="ERR1004" xml:space="preserve">
+    <value>Geçersiz parametre değeri.</value>
+  </data>
+  <data name="ERR1005" xml:space="preserve">
+    <value>Mapping işlemi sırasında beklenmedik bir hata oluştu.</value>
+  </data>
+  <data name="ERR1022" xml:space="preserve">
+    <value>Kayıt zaten mevcut.</value>
+  </data>
+  <data name="ERR1021" xml:space="preserve">
+    <value>Kayıt zaten mevcut.</value>
+  </data>
+  <data name="ERR1020" xml:space="preserve">
+    <value>Kayıt zaten mevcut.</value>
+  </data>
+  <data name="ERR1019" xml:space="preserve">
+    <value>Kayıt zaten mevcut.</value>
+  </data>
+  <data name="ERR1018" xml:space="preserve">
+    <value>Kayıt zaten mevcut.</value>
+  </data>
+  <data name="ERR1017" xml:space="preserve">
+    <value>Kayıt zaten mevcut.</value>
+  </data>
+  <data name="ERR1016" xml:space="preserve">
+    <value>Kayıt zaten mevcut.</value>
+  </data>
+  <data name="ERR1015" xml:space="preserve">
+    <value>Geçersiz kart ID değeri. ID pozitif bir sayı olmalıdır.</value>
+  </data>
+  <data name="ERR1014" xml:space="preserve">
+    <value>Güncelleme sırasında bir hata oluştu.</value>
+  </data>
+  <data name="ERR1013" xml:space="preserve">
+    <value>Silme işlemi sırasında hata meydana geldi.</value>
+  </data>
+  <data name="ERR1012" xml:space="preserve">
+    <value>Erişim reddedildi.</value>
+  </data>
+  <data name="ERR1011" xml:space="preserve">
+    <value>Kullanıcı adı veya şifre yanlış.</value>
+  </data>
+  <data name="ERR1010" xml:space="preserve">
+    <value>Banka kartı listesi boş.</value>
+  </data>
+  <data name="ERR1009" xml:space="preserve">
+    <value>İşlem zaman aşımına uğradı.</value>
+  </data>
+  <data name="ERR1008" xml:space="preserve">
+    <value>Veritabanı bağlantısı başarısız oldu.</value>
+  </data>
+  <data name="ERR1007" xml:space="preserve">
+    <value>Sunucu hatası oluştu.</value>
+  </data>
+  <data name="ERR1006" xml:space="preserve">
+    <value>Kayıt bulunamadı.</value>
+  </data>
+  <data name="CRUD1000" xml:space="preserve">
+    <value>Kayıt başarıyla oluşturuldu.</value>
+  </data>
+  <data name="CRUD1003" xml:space="preserve">
+    <value>Aynı kayıt zaten mevcut.</value>
+  </data>
+  <data name="CRUD1004" xml:space="preserve">
+    <value>Bu kart numarası zaten kayıtlı.</value>
+  </data>
+  <data name="CRUD1002" xml:space="preserve">
+    <value>Gerekli alanlar eksik; kayıt oluşturulamadı.</value>
+  </data>
+  <data name="CRUD1001" xml:space="preserve">
+    <value>Kayıt oluşturulurken beklenmedik bir hata oluştu.</value>
+  </data>
+  <data name="CRUD2000" xml:space="preserve">
+    <value>Kayıt başarıyla getirildi.</value>
+  </data>
+  <data name="CRUD2003" xml:space="preserve">
+    <value>Veri okunamadı, lütfen tekrar deneyin.</value>
+  </data>
+  <data name="CRUD2004" xml:space="preserve">
+    <value>Kayıt listesi boş.</value>
+  </data>
+  <data name="CRUD2002" xml:space="preserve">
+    <value>Kayıt getirilirken hata oluştu.</value>
+  </data>
+  <data name="CRUD2001" xml:space="preserve">
+    <value>İstenen kayıt bulunamadı.</value>
+  </data>
+  <data name="CRUD3000" xml:space="preserve">
+    <value>Kayıt başarıyla güncellendi.</value>
+  </data>
+  <data name="CRUD3003" xml:space="preserve">
+    <value>Güncelleme sırasında beklenmedik bir hata oluştu.</value>
+  </data>
+  <data name="CRUD3002" xml:space="preserve">
+    <value>Gönderilen veri geçersiz; güncelleme yapılamadı.</value>
+  </data>
+  <data name="CRUD3001" xml:space="preserve">
+    <value>Güncellenecek kayıt bulunamadı.</value>
+  </data>
+  <data name="CRUD4000" xml:space="preserve">
+    <value>Kayıt başarıyla silindi.</value>
+  </data>
+  <data name="CRUD4003" xml:space="preserve">
+    <value>Bu kart zaten pasif durumda.</value>
+  </data>
+  <data name="CRUD4002" xml:space="preserve">
+    <value>Silme işlemi sırasında hata oluştu.</value>
+  </data>
+  <data name="CRUD4001" xml:space="preserve">
+    <value>Silinecek kayıt bulunamadı.</value>
+  </data>
+  <data name="INFO5000" xml:space="preserve">
+    <value>İşlem başarıyla tamamlandı.</value>
+  </data>
+  <data name="INFO5002" xml:space="preserve">
+    <value>Veri güncellendi, lütfen sayfayı yenileyiniz.</value>
+  </data>
+  <data name="INFO5001" xml:space="preserve">
+    <value>İşlem devam ediyor, lütfen bekleyiniz.</value>
+  </data>
+  <data name="WARN6000" xml:space="preserve">
+    <value>Uyarı: Kayıt üzerinde başka işlemler devam ediyor.</value>
+  </data>
+  <data name="WARN6002" xml:space="preserve">
+    <value>Uyarı: İşlem tamamlanmadan önce lütfen kontrol ediniz.</value>
+  </data>
+  <data name="WARN6001" xml:space="preserve">
+    <value>Dikkat: Veri kilitli, işlem yapılamıyor.</value>
+  </data>
+</root>

@@ -6,9 +6,8 @@ namespace BankCardProject.Repositories.Interfaces
     {
         Task<List<BankCard>> GetAllAsync();
         Task<BankCard?> GetByIdAsync(int id);
-        Task<bool> CreateAsync(BankCard card);
-        Task<bool> UpdateAsync(BankCard card);
-        Task<bool> DeleteAsync(int id);
-
+        Task<BankCard> CreateAsync(BankCard card);
+        Task UpdateAsync(BankCard card);
+        Task<bool> ExistsAsync(string cardNumber);
     }
 }

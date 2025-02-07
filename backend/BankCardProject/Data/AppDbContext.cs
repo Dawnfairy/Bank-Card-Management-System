@@ -1,4 +1,5 @@
-﻿using BankCardProject.Models;
+﻿using BankCardProject.DTOs;
+using BankCardProject.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace BankCardProject.Data
@@ -9,13 +10,26 @@ namespace BankCardProject.Data
 
         public DbSet<CreditCard> CreditCards { get; set; }
         public DbSet<BankCard> BankCards { get; set; }
+        public DbSet<ErrorLog> ErrorLogs { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<ErrorLog>();
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Id)
+                      .ValueGeneratedOnAdd(); // IDENTITY sütunu
+            });
+
+
             modelBuilder.Entity<BankCard>(entity =>
             {
+
+
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Id)
                       .ValueGeneratedOnAdd(); // IDENTITY sütunu
@@ -31,7 +45,6 @@ namespace BankCardProject.Data
                 entity.Property(e => e.CreatedAt)
                       .HasDefaultValueSql("GETDATE()");
             });
-
 
         }
     }
