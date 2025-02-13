@@ -1,16 +1,78 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "BankCardProject",
-    "version": "1.0"
+    "title": "BankCardProject API",
+    "version": "v1"
   },
   "paths": {
-    "/AllCards": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "string"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/bankcards/all": {
       "get": {
         "tags": [
-          "AllCards"
+          "BankCards"
         ],
-        "operationId": "GetAllCards",
+        "summary": "Tüm DebitCard'leri getirir.",
         "responses": {
           "200": {
             "description": "OK",
@@ -19,7 +81,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BaseCard"
+                    "$ref": "#/components/schemas/BankCardDto"
                   }
                 }
               },
@@ -27,7 +89,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BaseCard"
+                    "$ref": "#/components/schemas/BankCardDto"
                   }
                 }
               },
@@ -35,7 +97,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/BaseCard"
+                    "$ref": "#/components/schemas/BankCardDto"
                   }
                 }
               }
@@ -44,12 +106,152 @@
         }
       }
     },
-    "/CreditCards": {
+    "/api/bankcards/byId/{id}": {
+      "get": {
+        "tags": [
+          "BankCards"
+        ],
+        "summary": "Belirli bir DebitCard'i Id'ye göre getirir.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BankCardDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BankCardDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BankCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/bankcards/create": {
+      "post": {
+        "tags": [
+          "BankCards"
+        ],
+        "summary": "Yeni bir BankCard oluşturur.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankCardDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankCardDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankCardDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/bankcards/updateById/{id}": {
+      "put": {
+        "tags": [
+          "BankCards"
+        ],
+        "summary": "Mevcut bir BankCard'i günceller.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankCardDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankCardDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/BankCardDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/bankcards/deleteById/{id}": {
+      "delete": {
+        "tags": [
+          "BankCards"
+        ],
+        "summary": "Belirli bir DebitCard'i siler.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/creditcards/all": {
       "get": {
         "tags": [
           "CreditCards"
         ],
-        "operationId": "GetCreditCards",
+        "summary": "Tüm CreditCard'leri getirir.",
         "responses": {
           "200": {
             "description": "OK",
@@ -58,7 +260,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CreditCard"
+                    "$ref": "#/components/schemas/CreditCardDto"
                   }
                 }
               },
@@ -66,7 +268,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CreditCard"
+                    "$ref": "#/components/schemas/CreditCardDto"
                   }
                 }
               },
@@ -74,34 +276,77 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/CreditCard"
+                    "$ref": "#/components/schemas/CreditCardDto"
                   }
                 }
               }
             }
           }
         }
-      },
+      }
+    },
+    "/api/creditcards/byId/{id}": {
+      "get": {
+        "tags": [
+          "CreditCards"
+        ],
+        "summary": "Belirli bir CreditCard'i Id'ye göre getirir.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditCardDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditCardDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreditCardDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/creditcards/create": {
       "post": {
         "tags": [
           "CreditCards"
         ],
-        "operationId": "PostCreditCard",
+        "summary": "Yeni bir CreditCard oluşturur.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreditCard"
+                "$ref": "#/components/schemas/CreditCardDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreditCard"
+                "$ref": "#/components/schemas/CreditCardDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreditCard"
+                "$ref": "#/components/schemas/CreditCardDto"
               }
             }
           }
@@ -112,17 +357,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreditCard"
+                  "$ref": "#/components/schemas/CreditCardDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreditCard"
+                  "$ref": "#/components/schemas/CreditCardDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreditCard"
+                  "$ref": "#/components/schemas/CreditCardDto"
                 }
               }
             }
@@ -130,12 +375,78 @@
         }
       }
     },
-    "/DebitCards": {
+    "/api/creditcards/updateById/{id}": {
+      "put": {
+        "tags": [
+          "CreditCards"
+        ],
+        "summary": "Mevcut bir CreditCard'i günceller.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditCardDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditCardDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreditCardDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/creditcards/deleteById/{id}": {
+      "delete": {
+        "tags": [
+          "CreditCards"
+        ],
+        "summary": "Belirli bir CreditCard'i siler.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/all": {
       "get": {
         "tags": [
-          "DebitCards"
+          "User"
         ],
-        "operationId": "GetDebitCards",
         "responses": {
           "200": {
             "description": "OK",
@@ -144,7 +455,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/DebitCard"
+                    "$ref": "#/components/schemas/UserDto"
                   }
                 }
               },
@@ -152,7 +463,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/DebitCard"
+                    "$ref": "#/components/schemas/UserDto"
                   }
                 }
               },
@@ -160,7 +471,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/DebitCard"
+                    "$ref": "#/components/schemas/UserDto"
                   }
                 }
               }
@@ -169,41 +480,96 @@
         }
       }
     },
-    "/WeatherForecast": {
+    "/api/user/byId/{id}": {
       "get": {
         "tags": [
-          "WeatherForecast"
+          "User"
         ],
-        "operationId": "GetWeatherForecast",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
+                  "$ref": "#/components/schemas/UserDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
+                  "$ref": "#/components/schemas/UserDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/WeatherForecast"
-                  }
+                  "$ref": "#/components/schemas/UserDto"
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/user/create": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/user/update/{id}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -211,7 +577,7 @@
   },
   "components": {
     "schemas": {
-      "BaseCard": {
+      "BankCardDto": {
         "type": "object",
         "properties": {
           "id": {
@@ -231,10 +597,6 @@
             "format": "date-time"
           },
           "cvv": {
-            "type": "string",
-            "nullable": true
-          },
-          "cardType": {
             "type": "string",
             "nullable": true
           },
@@ -248,11 +610,30 @@
           "createdAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "accountNumber": {
+            "type": "string",
+            "nullable": true
+          },
+          "iban": {
+            "type": "string",
+            "nullable": true
+          },
+          "balance": {
+            "type": "number",
+            "format": "double"
+          },
+          "withdrawalLimit": {
+            "type": "number",
+            "format": "double"
+          },
+          "isContactless": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
       },
-      "CreditCard": {
+      "CreditCardDto": {
         "type": "object",
         "properties": {
           "id": {
@@ -272,10 +653,6 @@
             "format": "date-time"
           },
           "cvv": {
-            "type": "string",
-            "nullable": true
-          },
-          "cardType": {
             "type": "string",
             "nullable": true
           },
@@ -320,85 +697,27 @@
         },
         "additionalProperties": false
       },
-      "DebitCard": {
+      "UserDto": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int32"
           },
-          "cardNumber": {
+          "userName": {
             "type": "string",
             "nullable": true
           },
-          "cardHolderName": {
+          "password": {
             "type": "string",
             "nullable": true
           },
-          "expirationDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "cvv": {
-            "type": "string",
-            "nullable": true
-          },
-          "cardType": {
-            "type": "string",
-            "nullable": true
-          },
-          "bankName": {
-            "type": "string",
-            "nullable": true
-          },
-          "isActive": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "accountNumber": {
-            "type": "string",
-            "nullable": true
-          },
-          "iban": {
-            "type": "string",
-            "nullable": true
-          },
-          "balance": {
-            "type": "number",
-            "format": "double"
-          },
-          "withdrawalLimit": {
-            "type": "number",
-            "format": "double"
-          },
-          "isContactless": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "WeatherForecast": {
-        "type": "object",
-        "properties": {
-          "date": {
-            "type": "string",
-            "format": "date"
-          },
-          "temperatureC": {
+          "roleId": {
             "type": "integer",
             "format": "int32"
           },
-          "temperatureF": {
-            "type": "integer",
-            "format": "int32",
-            "readOnly": true
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
+          "isActive": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

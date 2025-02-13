@@ -1,15 +1,15 @@
 [
   {
-    "ContainingType": "BankCardProject.Controllers.AllCardsController",
-    "Method": "GetAllCards",
-    "RelativePath": "AllCards",
+    "ContainingType": "BankCardProject.Controllers.BankCardsController",
+    "Method": "GetAll",
+    "RelativePath": "api/bankcards/all",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[BankCardProject.Models.BaseCard, BankCardProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BankCardProject.DTOs.BankCardDto, BankCardProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -17,47 +17,25 @@
         ],
         "StatusCode": 200
       }
-    ],
-    "EndpointName": "GetAllCards"
+    ]
   },
   {
-    "ContainingType": "BankCardProject.Controllers.CreditCardsController",
-    "Method": "GetCreditCards",
-    "RelativePath": "CreditCards",
+    "ContainingType": "BankCardProject.Controllers.BankCardsController",
+    "Method": "GetById",
+    "RelativePath": "api/bankcards/byId/{id}",
     "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[BankCardProject.Models.CreditCard, BankCardProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ],
-    "EndpointName": "GetCreditCards"
-  },
-  {
-    "ContainingType": "BankCardProject.Controllers.CreditCardsController",
-    "Method": "PostCreditCard",
-    "RelativePath": "CreditCards",
-    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "creditCard",
-        "Type": "BankCardProject.Models.CreditCard",
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "BankCardProject.Models.CreditCard",
+        "Type": "BankCardProject.DTOs.BankCardDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -65,20 +43,72 @@
         ],
         "StatusCode": 200
       }
-    ],
-    "EndpointName": "PostCreditCard"
+    ]
   },
   {
-    "ContainingType": "BankCardProject.Controllers.DebitCardsController",
-    "Method": "GetDebitcars",
-    "RelativePath": "DebitCards",
+    "ContainingType": "BankCardProject.Controllers.BankCardsController",
+    "Method": "Create",
+    "RelativePath": "api/bankcards/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "BankCardProject.DTOs.BankCardDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.BankCardsController",
+    "Method": "Delete",
+    "RelativePath": "api/bankcards/deleteById/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.BankCardsController",
+    "Method": "Update",
+    "RelativePath": "api/bankcards/updateById/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "cardDto",
+        "Type": "BankCardProject.DTOs.BankCardDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.CreditCardsController",
+    "Method": "GetAll",
+    "RelativePath": "api/creditcards/all",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[BankCardProject.Models.DebitCard, BankCardProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BankCardProject.DTOs.CreditCardDto, BankCardProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -86,20 +116,108 @@
         ],
         "StatusCode": 200
       }
-    ],
-    "EndpointName": "GetDebitCards"
+    ]
   },
   {
-    "ContainingType": "BankCardProject.Controllers.WeatherForecastController",
-    "Method": "Get",
-    "RelativePath": "WeatherForecast",
+    "ContainingType": "BankCardProject.Controllers.CreditCardsController",
+    "Method": "GetById",
+    "RelativePath": "api/creditcards/byId/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BankCardProject.DTOs.CreditCardDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.CreditCardsController",
+    "Method": "Create",
+    "RelativePath": "api/creditcards/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "BankCardProject.DTOs.CreditCardDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "BankCardProject.DTOs.CreditCardDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.CreditCardsController",
+    "Method": "Delete",
+    "RelativePath": "api/creditcards/deleteById/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.CreditCardsController",
+    "Method": "Update",
+    "RelativePath": "api/creditcards/updateById/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "cardDto",
+        "Type": "BankCardProject.DTOs.CreditCardDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.UserController",
+    "Method": "GetAll",
+    "RelativePath": "api/user/all",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[BankCardProject.WeatherForecast, BankCardProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[BankCardProject.DTOs.UserDto, BankCardProject, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -107,7 +225,96 @@
         ],
         "StatusCode": 200
       }
+    ]
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.UserController",
+    "Method": "GetById",
+    "RelativePath": "api/user/byId/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
     ],
-    "EndpointName": "GetWeatherForecast"
+    "ReturnTypes": [
+      {
+        "Type": "BankCardProject.DTOs.UserDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.UserController",
+    "Method": "Create",
+    "RelativePath": "api/user/create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "BankCardProject.DTOs.UserDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.UserController",
+    "Method": "Delete",
+    "RelativePath": "api/user/update/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "BankCardProject.DTOs.UserDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BankCardProject.Controllers.AuthController",
+    "Method": "Logout",
+    "RelativePath": "logout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

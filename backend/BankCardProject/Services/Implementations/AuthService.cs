@@ -3,6 +3,7 @@ using BankCardProject.Exceptions;
 using BankCardProject.Properties;
 using BankCardProject.Repositories.Interfaces;
 using BankCardProject.Services.Interfaces;
+using BankCardProject.DTOs;
 using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 using System.CodeDom.Compiler;
@@ -28,29 +29,43 @@ namespace BankCardProject.Services.Implementations
             _redisDb = redis.GetDatabase();
 
         }
-        public async Task<string> LoginAsync(UserDto dto)
+        public async Task<LoginResult> LoginAsync(UserDto dto)
         {
+            //Authentication
             var user = await _userRepository.GetUserByUsernameAsync(dto.UserName);
-
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
             {
                 throw new UnauthorizedException(Resources.ERR1011);
             }
-            var token = GenerateJwtToken(user.UserName);
 
-            // Token'ı Redis'e kaydet (örneğin, "user_token:{userName}" anahtarıyla, 1 saat geçerlilik)
-            await _redisDb.StringSetAsync($"user_token:{user.UserName}", token, TimeSpan.FromHours(1));
-            return token;
+            int role = user.RoleId;
+            var token = GenerateJwtToken(user.UserName, role);
+
+            string redisKey = $"user:{user.UserName}";
+            await _redisDb.HashSetAsync(redisKey, new HashEntry[]
+            {
+                new HashEntry("token", token),
+                new HashEntry("role", role)
+            });
+
+            await _redisDb.KeyExpireAsync(redisKey, TimeSpan.FromHours(1));
+
+            return new LoginResult
+            {
+                Token = token,
+                Role = role
+            };
 
         }
 
         public async Task<bool> LogoutAsync(string userName)
         {
-            return await _redisDb.KeyDeleteAsync($"user_token:{userName}");
+            string redisKey = $"user:{userName}";
+            return await _redisDb.KeyDeleteAsync(redisKey);
         }
 
-        private string GenerateJwtToken(string userName)
+        private string GenerateJwtToken(string userName, int role)
         {
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -59,6 +74,7 @@ namespace BankCardProject.Services.Implementations
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userName),
+                new Claim("role", role.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -68,7 +84,7 @@ namespace BankCardProject.Services.Implementations
                 claims,
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: credentials
-                );
+             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

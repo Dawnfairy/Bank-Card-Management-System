@@ -54,16 +54,16 @@
             Belirli bir CreditCard'i siler.
             </summary>
         </member>
-        <member name="T:BankCardProject.Migrations.yeto">
+        <member name="T:BankCardProject.Migrations.olyy">
             <inheritdoc />
         </member>
-        <member name="M:BankCardProject.Migrations.yeto.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:BankCardProject.Migrations.olyy.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:BankCardProject.Migrations.yeto.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:BankCardProject.Migrations.olyy.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:BankCardProject.Migrations.yeto.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:BankCardProject.Migrations.olyy.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="T:BankCardProject.Properties.Resources">

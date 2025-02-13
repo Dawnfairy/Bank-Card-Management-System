@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankCardProject.Controllers
 {
+    [ApiController]
+    [Route("api")]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
@@ -26,16 +28,18 @@ namespace BankCardProject.Controllers
             if (dto == null)
                 throw new BadRequestException(Resources.CRUD1002);
 
-            var token = await _service.LoginAsync(dto);
-            return Ok(new { token });
+            var result = await _service.LoginAsync(dto);
+            return Ok(new { token = result.Token, role = result.Role });
         }
 
         [HttpPost("logout")]
-        public async Task<IActionResult> Logout([FromBody] string userName)
+        public async Task<IActionResult> Logout([FromQuery] string userName)
         {
             var result = await _service.LogoutAsync(userName);
             return result ? Ok("Çıkış başarılı!") : BadRequest("Çıkış işlemi başarısız.");
         }
+
+
 
 
     }

@@ -3,428 +3,211 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './AddCard.css';
+import endpoints from '../api/apiEndpoint';
+import apiClient from '../api/apiClient';
 
 const AddCard = () => {
-  const navigate = useNavigate();
-  const [cardType, setCardType] = useState('');
-  const [creditCardData, setCreditCardData] = useState({
-    cardNumber: '',
-    cardHolderName: '',
-    expirationDate: '',
-    cvv: '',
-    bankName: '',
-    creditLimit: '',
-    availableBalance: '',
-    minimumPayment: '',
-    interestRate: '',
-    billingDate: '',
-    dueDate: '',
-    installments: false,
-  });
+    const navigate = useNavigate();
+    const [cardType, setCardType] = useState('');
 
-  const [bankCardData, setDebitCardData] = useState({
-    cardNumber: '',
-    cardHolderName: '',
-    expirationDate: '',
-    cvv: '',
-    bankName: '',
-    accountNumber: '',
-    IBAN: '',
-    balance: '',
-    withdrawalLimit: '',
-    isContactless: false,
-  });
+    // CreditCardDto için state (Id, IsActive, CreatedAt gibi alanlar tipik olarak backend tarafından atanır)
+    const [creditCardData, setCreditCardData] = useState({
+        CardNumber: '',
+        CardHolderName: '',
+        ExpirationDate: '',
+        CVV: '',
+        BankName: '',
+        CreditLimit: '',
+        AvailableBalance: '',
+        MinimumPayment: '',
+        InterestRate: '',
+        BillingDate: '',
+        DueDate: '',
+        Installments: false,
+    });
 
-  const handleCardTypeChange = (e) => {
-    setCardType(e.target.value);
-  };
-
-  const handleCreditCardChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setCreditCardData((prevData) => ({
-      ...prevData,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
-
-  const handleDebitCardChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setDebitCardData((prevData) => ({
-      ...prevData,
-      [name]: type === 'checkbox' ? checked : value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    let payload = {};
-    if (cardType === 'Credit') {
-      payload = {
-        ...creditCardData,
-        cardType: 2, // CardType.Credit
-      };
-    } else if (cardType === 'Debit') {
-      payload = {
-        ...bankCardData,
-        cardType: 1, // CardType.Bank
-      };
-    } else {
-      alert('Lütfen kart türünü seçin.');
-      return;
-    }
-    try {
-
-        let endpoint = '';
-        if (cardType === 'Credit') {
-          endpoint = 'http://localhost:5283/api/creditcards/create';
-        } else if (cardType === 'Debit') {
-          endpoint = 'http://localhost:5283/api/bankcards/create';
-        } else {
-          throw new Error('Geçersiz kart tipi');
-        }
-      const response = await axios.post(endpoint, payload);
-      console.log('Kart başarıyla eklendi:', response.data);
-      alert('Kart başarıyla eklendi!');
-      // Formu sıfırlamak isterseniz:
-      setCardType('');
-      setCreditCardData({
-        cardNumber: '',
-        cardHolderName: '',
-        expirationDate: '',
-        cvv: '',
-        bankName: '',
-        creditLimit: '',
-        availableBalance: '',
-        minimumPayment: '',
-        interestRate: '',
-        billingDate: '',
-        dueDate: '',
-        installments: false,
-      });
-      setDebitCardData({
-        cardNumber: '',
-        cardHolderName: '',
-        expirationDate: '',
-        cvv: '',
-        bankName: '',
-        accountNumber: '',
+    // BankCardDto için state
+    const [bankCardData, setBankCardData] = useState({
+        CardNumber: '',
+        CardHolderName: '',
+        ExpirationDate: '',
+        CVV: '',
+        BankName: '',
+        AccountNumber: '',
         IBAN: '',
-        balance: '',
-        withdrawalLimit: '',
-        isContactless: false,
-      });
-      navigate('/'); // Kartlar listesine yönlendirme
-    } catch (error) {
-      console.error('Kart ekleme hatası:',  error.response ? error.response.data : error.message);
-      alert('Kart eklerken bir hata oluştu.');
-    }
-  };
+        Balance: '',
+        WithdrawalLimit: '',
+        IsContactless: false,
+    });
 
-  return (
-    <div className="add-card-container">
-      <h2>Kart Ekle</h2>
-      <form onSubmit={handleSubmit} className="add-card-form">
-        <div className="form-group">
-          <label>Kart Türü:</label>
-          <select
-            name="cardType"
-            value={cardType}
-            onChange={handleCardTypeChange}
-            required
-            className="form-control"
-          >
-            <option value="">Seçiniz</option>
-            <option value="Debit">Banka Kartı</option>
-            <option value="Credit">Kredi Kartı</option>
-          </select>
+    // Türkçe etiket eşleştirmeleri
+    const creditCardLabels = {
+        CardNumber: "Kart Numarası",
+        CardHolderName: "Kart Sahibi Adı",
+        ExpirationDate: "Son Kullanma Tarihi",
+        CVV: "CVV",
+        BankName: "Banka Adı",
+        CreditLimit: "Kredi Limiti",
+        AvailableBalance: "Kullanılabilir Bakiye",
+        MinimumPayment: "Minimum Ödeme",
+        InterestRate: "Faiz Oranı",
+        BillingDate: "Ekstre Tarihi",
+        DueDate: "Son Ödeme Tarihi",
+        Installments: "Taksit Desteği"
+    };
+
+    const bankCardLabels = {
+        CardNumber: "Kart Numarası",
+        CardHolderName: "Kart Sahibi Adı",
+        ExpirationDate: "Son Kullanma Tarihi",
+        CVV: "CVV",
+        BankName: "Banka Adı",
+        AccountNumber: "Hesap Numarası",
+        IBAN: "IBAN",
+        Balance: "Bakiye",
+        WithdrawalLimit: "Günlük Para Çekme Limiti",
+        IsContactless: "Temassız Ödeme Desteği"
+    };
+
+    const handleCardTypeChange = (e) => setCardType(e.target.value);
+
+    // Genel input değişimi: ilgili state setter fonksiyonu parametre olarak veriliyor
+    const handleInputChange = (e, setState) => {
+        const { name, value, type, checked } = e.target;
+        setState((prevData) => ({
+            ...prevData,
+            [name]: type === 'checkbox' ? checked : value,
+        }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!cardType) {
+            alert('Lütfen kart türünü seçin.');
+            return;
+        }
+        const isCredit = cardType === 'Credit';
+        // Payload, kart türüne göre düzenleniyor; ayrıca cardType alanı backend için ayrım olarak gönderiliyor.
+        const payload = isCredit
+            ? { ...creditCardData, cardType: 2 } // 2: Kredi Kartı
+            : { ...bankCardData, cardType: 1 };   // 1: Banka Kartı
+
+        const endpoint = isCredit
+            ? endpoints.creditcards.create
+            : endpoints.bankcards.create;
+
+        try {
+            const response = await apiClient.post(endpoint, payload);
+            console.log('Kart başarıyla eklendi:', response.data);
+            alert('Kart başarıyla eklendi!');
+
+            // Form sıfırlama işlemi
+            setCardType('');
+            setCreditCardData({
+                CardNumber: '',
+                CardHolderName: '',
+                ExpirationDate: '',
+                CVV: '',
+                BankName: '',
+                CreditLimit: '',
+                AvailableBalance: '',
+                MinimumPayment: '',
+                InterestRate: '',
+                BillingDate: '',
+                DueDate: '',
+                Installments: false,
+            });
+            setBankCardData({
+                CardNumber: '',
+                CardHolderName: '',
+                ExpirationDate: '',
+                CVV: '',
+                BankName: '',
+                AccountNumber: '',
+                IBAN: '',
+                Balance: '',
+                WithdrawalLimit: '',
+                IsContactless: false,
+            });
+            navigate('/cards'); // Kartlar listesine yönlendirme
+        } catch (error) {
+            console.error('Kart ekleme hatası:', error.response ? error.response.data : error.message);
+            alert('Kart eklerken bir hata oluştu.');
+        }
+    };
+
+    const getInputType = (key) => {
+        const lower = key.toLowerCase();
+        // Tarih alanları için 'date'
+        if (lower.includes('date')) {
+            return 'date';
+        }
+        // Sayısal alanlar için: limit, balance, payment, rate, withdrawal gibi kelimeler içeriyorsa
+        else if (lower.includes('limit') || lower.includes('balance') || lower.includes('payment') || lower.includes('rate') || lower.includes('withdrawal')) {
+            return 'number';
+        }
+        // Diğer alanlar için varsayılan olarak 'text'
+        return 'text';
+    };
+
+
+    // Seçilen kart türüne göre mevcut veriyi, setter fonksiyonunu ve etiketleri belirliyoruz.
+    const currentCardData = cardType === 'Credit' ? creditCardData : bankCardData;
+    const setCurrentCardData = cardType === 'Credit' ? setCreditCardData : setBankCardData;
+    const currentLabels = cardType === 'Credit' ? creditCardLabels : bankCardLabels;
+
+    return (
+        <div className="add-card-container">
+            <h2>Kart Ekle</h2>
+            <form onSubmit={handleSubmit} className="add-card-form">
+                <div className="form-group">
+                    <label>Kart Türü:</label>
+                    <select value={cardType} onChange={handleCardTypeChange} required className="form-control">
+                        <option value="">Seçiniz</option>
+                        <option value="Bank">Banka Kartı</option>
+                        <option value="Credit">Kredi Kartı</option>
+                    </select>
+                </div>
+
+                {cardType && (
+                    <div className="card-fields">
+                        <h3>{cardType === 'Credit' ? 'Kredi Kartı Bilgileri' : 'Banka Kartı Bilgileri'}</h3>
+                        {Object.keys(currentCardData).map((key) => (
+                            <div key={key} className="form-group">
+                                <label>{currentLabels[key]}:</label>
+                                {typeof currentCardData[key] === 'boolean' ? (
+                                    <input
+                                        type="checkbox"
+                                        name={key}
+                                        checked={currentCardData[key]}
+                                        onChange={(e) => handleInputChange(e, setCurrentCardData)}
+                                        className="form-check-input"
+                                    />
+                                ) : (
+                                    <input
+                                        type={
+                                            getInputType(
+                                                key
+                                            )
+                                        }
+                                        name={key}
+                                        value={currentCardData[key]}
+                                        onChange={(e) => handleInputChange(e, setCurrentCardData)}
+                                        required
+                                        className="form-control"
+                                        placeholder={currentLabels[key]}
+                                    />
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                <button type="submit" className="btn btn-primary">Kaydet</button>
+            </form>
         </div>
-
-        {cardType === 'Credit' && (
-          <div className="card-fields">
-            <h3>Kredi Kartı Bilgileri</h3>
-            <div className="form-group">
-              <label>Kart Numarası:</label>
-              <input
-                type="text"
-                name="cardNumber"
-                value={creditCardData.cardNumber}
-                onChange={handleCreditCardChange}
-                required
-                maxLength="16"
-                className="form-control"
-                placeholder="16 haneli kart numarası"
-              />
-            </div>
-            <div className="form-group">
-              <label>Kart Sahibi Adı:</label>
-              <input
-                type="text"
-                name="cardHolderName"
-                value={creditCardData.cardHolderName}
-                onChange={handleCreditCardChange}
-                required
-                className="form-control"
-                placeholder="Kart sahibi adı"
-              />
-            </div>
-            <div className="form-group">
-              <label>Son Kullanma Tarihi:</label>
-              <input
-                type="date"
-                name="expirationDate"
-                value={creditCardData.expirationDate}
-                onChange={handleCreditCardChange}
-                required
-                className="form-control"
-              />
-            </div>
-            <div className="form-group">
-              <label>CVV:</label>
-              <input
-                type="text"
-                name="cvv"
-                value={creditCardData.cvv}
-                onChange={handleCreditCardChange}
-                required
-                maxLength="4"
-                className="form-control"
-                placeholder="3-4 haneli güvenlik kodu"
-              />
-            </div>
-            <div className="form-group">
-              <label>Banka Adı:</label>
-              <input
-                type="text"
-                name="bankName"
-                value={creditCardData.bankName}
-                onChange={handleCreditCardChange}
-                required
-                className="form-control"
-                placeholder="Banka adı"
-              />
-            </div>
-            <div className="form-group">
-              <label>Kredi Limiti:</label>
-              <input
-                type="number"
-                name="creditLimit"
-                value={creditCardData.creditLimit}
-                onChange={handleCreditCardChange}
-                required
-                className="form-control"
-                placeholder="Örneğin: 5000"
-              />
-            </div>
-            <div className="form-group">
-              <label>Kullanılabilir Bakiye:</label>
-              <input
-                type="number"
-                name="availableBalance"
-                value={creditCardData.availableBalance}
-                onChange={handleCreditCardChange}
-                required
-                className="form-control"
-                placeholder="Örneğin: 2500"
-              />
-            </div>
-            <div className="form-group">
-              <label>Minimum Ödeme:</label>
-              <input
-                type="number"
-                name="minimumPayment"
-                value={creditCardData.minimumPayment}
-                onChange={handleCreditCardChange}
-                required
-                className="form-control"
-                placeholder="Örneğin: 100"
-              />
-            </div>
-            <div className="form-group">
-              <label>Faiz Oranı (%):</label>
-              <input
-                type="number"
-                name="interestRate"
-                value={creditCardData.interestRate}
-                onChange={handleCreditCardChange}
-                required
-                step="0.01"
-                className="form-control"
-                placeholder="Örneğin: 1.5"
-              />
-            </div>
-            <div className="form-group">
-              <label>Ekstre Tarihi:</label>
-              <input
-                type="date"
-                name="billingDate"
-                value={creditCardData.billingDate}
-                onChange={handleCreditCardChange}
-                required
-                className="form-control"
-              />
-            </div>
-            <div className="form-group">
-              <label>Son Ödeme Tarihi:</label>
-              <input
-                type="date"
-                name="dueDate"
-                value={creditCardData.dueDate}
-                onChange={handleCreditCardChange}
-                required
-                className="form-control"
-              />
-            </div>
-            <div className="form-group form-check">
-              <input
-                type="checkbox"
-                name="installments"
-                checked={creditCardData.installments}
-                onChange={handleCreditCardChange}
-                className="form-check-input"
-                id="installments"
-              />
-              <label className="form-check-label" htmlFor="installments">
-                Taksit Desteği Var mı?
-              </label>
-            </div>
-          </div>
-        )}
-
-        {cardType === 'Debit' && (
-          <div className="card-fields">
-            <h3>Banka Kartı Bilgileri</h3>
-            <div className="form-group">
-              <label>Kart Numarası:</label>
-              <input
-                type="text"
-                name="cardNumber"
-                value={bankCardData.cardNumber}
-                onChange={handleDebitCardChange}
-                required
-                maxLength="16"
-                className="form-control"
-                placeholder="16 haneli kart numarası"
-              />
-            </div>
-            <div className="form-group">
-              <label>Kart Sahibi Adı:</label>
-              <input
-                type="text"
-                name="cardHolderName"
-                value={bankCardData.cardHolderName}
-                onChange={handleDebitCardChange}
-                required
-                className="form-control"
-                placeholder="Kart sahibi adı"
-              />
-            </div>
-            <div className="form-group">
-              <label>Son Kullanma Tarihi:</label>
-              <input
-                type="date"
-                name="expirationDate"
-                value={bankCardData.expirationDate}
-                onChange={handleDebitCardChange}
-                required
-                className="form-control"
-              />
-            </div>
-            <div className="form-group">
-              <label>CVV:</label>
-              <input
-                type="text"
-                name="cvv"
-                value={bankCardData.cvv}
-                onChange={handleDebitCardChange}
-                required
-                maxLength="4"
-                className="form-control"
-                placeholder="3-4 haneli güvenlik kodu"
-              />
-            </div>
-            <div className="form-group">
-              <label>Banka Adı:</label>
-              <input
-                type="text"
-                name="bankName"
-                value={bankCardData.bankName}
-                onChange={handleDebitCardChange}
-                required
-                className="form-control"
-                placeholder="Banka adı"
-              />
-            </div>
-            <div className="form-group">
-              <label>Hesap Numarası:</label>
-              <input
-                type="text"
-                name="accountNumber"
-                value={bankCardData.accountNumber}
-                onChange={handleDebitCardChange}
-                required
-                className="form-control"
-                placeholder="Hesap numarası"
-              />
-            </div>
-            <div className="form-group">
-              <label>IBAN:</label>
-              <input
-                type="text"
-                name="IBAN"
-                value={bankCardData.iban}
-                onChange={handleDebitCardChange}
-                required
-                className="form-control"
-                placeholder="IBAN numarası"
-              />
-            </div>
-            <div className="form-group">
-              <label>Bakiye:</label>
-              <input
-                type="number"
-                name="balance"
-                value={bankCardData.balance}
-                onChange={handleDebitCardChange}
-                required
-                className="form-control"
-                placeholder="Örneğin: 1500"
-              />
-            </div>
-            <div className="form-group">
-              <label>Günlük Para Çekme Limiti:</label>
-              <input
-                type="number"
-                name="withdrawalLimit"
-                value={bankCardData.withdrawalLimit}
-                onChange={handleDebitCardChange}
-                required
-                className="form-control"
-                placeholder="Örneğin: 500"
-              />
-            </div>
-            <div className="form-group form-check">
-              <input
-                type="checkbox"
-                name="isContactless"
-                checked={bankCardData.isContactless}
-                onChange={handleDebitCardChange}
-                className="form-check-input"
-                id="isContactless"
-              />
-              <label className="form-check-label" htmlFor="isContactless">
-                Temassız Ödeme Desteği Var mı?
-              </label>
-            </div>
-          </div>
-        )}
-
-        <button type="submit" className="btn btn-primary">
-          Kaydet
-        </button>
-      </form>
-    </div>
-  );
+    );
 };
 
 export default AddCard;

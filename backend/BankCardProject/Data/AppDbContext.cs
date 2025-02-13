@@ -12,10 +12,18 @@ namespace BankCardProject.Data
         public DbSet<BankCard> BankCards { get; set; }
         public DbSet<ErrorLog> ErrorLogs { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<RolePermission>(RolePermission =>
+            {
+                RolePermission.HasKey(e => e.Id);
+                RolePermission.Property(e => e.Id)
+                             .ValueGeneratedOnAdd(); // IDENTITY sütunu
+            });
 
             modelBuilder.Entity<ErrorLog>();
             modelBuilder.Entity<User>(entity =>

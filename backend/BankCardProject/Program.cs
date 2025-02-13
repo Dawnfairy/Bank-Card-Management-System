@@ -34,6 +34,9 @@ builder.Services.AddCors(options =>
             builder.WithOrigins("http://localhost:3000") // React uygulamanýzýn URL'si
                    .AllowAnyHeader()
                    .AllowAnyMethod();
+            builder.WithOrigins("http://localhost:3001") // React uygulamanýzýn URL'si
+                   .AllowAnyHeader()
+                   .AllowAnyMethod();
         }); 
 });
 
@@ -46,6 +49,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
+builder.Services.AddScoped<IRolePermissionRepository, RolePermissionRepository>();
 
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
@@ -81,6 +86,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+
+// Uygulama baþlangýcýnda Redis'e izinleri yükleyin:
+using (var scope = app.Services.CreateScope())
+{
+    var permissionService = scope.ServiceProvider.GetRequiredService<IRolePermissionService>();
+    await permissionService.LoadPermissionIntoRedisAsync();
+}
 
 // CORS kullanma (Middleware)
 app.UseCors("AllowReactApp");

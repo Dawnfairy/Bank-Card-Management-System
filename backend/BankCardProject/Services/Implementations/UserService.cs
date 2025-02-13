@@ -3,6 +3,7 @@ using BankCardProject.DTOs;
 using BankCardProject.Exceptions;
 using BankCardProject.Models;
 using BankCardProject.Properties;
+using BankCardProject.Repositories.Implementations;
 using BankCardProject.Repositories.Interfaces;
 using BankCardProject.Services.Interfaces;
 using BCrypt.Net; // Bunu ekle
@@ -43,9 +44,16 @@ namespace BankCardProject.Services.Implementations
             throw new NotImplementedException();
         }
 
-        public Task<List<UserDto>> GetAllUsersAsync()
+        public async Task<List<UserDto>> GetAllUsersAsync()
         {
-            throw new NotImplementedException();
+            List<User> users = await _userRepository.GetAllUsersAsync();
+            if (users == null || users.Count == 0)
+            {
+                throw new NotFoundException(Resources.CRUD2004);
+            }
+            List<UserDto> dtoList = _mapper.Map<List<UserDto>>(users);
+            return dtoList ?? throw new OperationFailedException(Resources.ERR1005);
+
         }
 
         public Task<UserDto> GetUserByIdAsync(int id)

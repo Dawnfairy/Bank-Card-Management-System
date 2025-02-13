@@ -1,65 +1,124 @@
 /* src/components/EditCard.css */
 
+/* Genel Konteyner Ayarlarý */
 .edit-card-container {
-    max-width: 800px;
-    margin: 50px auto;
-    padding: 30px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .edit-card-container h2 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: #333;
-  }
-  
-  .edit-card-form .form-group {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px 40px;
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+    /* Baþlýk Stil */
+    .edit-card-container h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #333;
+        font-size: 2rem;
+        font-weight: 600;
+        border-bottom: 2px solid #007bff;
+        padding-bottom: 10px;
+    }
+
+/* Form Düzeni */
+.edit-card-form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form Grup Ayarlarý */
+.form-group {
     margin-bottom: 20px;
-  }
-  
-  .edit-card-form label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
-  }
-  
-  .edit-card-form .form-control {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .edit-card-form .form-check {
+    display: flex;
+    flex-direction: column;
+}
+
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #555;
+        font-size: 1rem;
+    }
+
+    /* Input Alaný Stil */
+    .form-group input.form-control {
+        padding: 10px 15px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .form-group input.form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+            outline: none;
+        }
+
+/* Kart Türü Etiketi */
+.card-type-label {
+    display: inline-block;
+    font-size: 1rem;
+    color: #007bff;
+    margin-top: 8px;
+}
+
+/* Kart Alanlarý Kapsayýcý */
+.card-fields {
+    margin-top: 25px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+/* Checkbox Ayarlarý */
+.form-check {
     display: flex;
     align-items: center;
-  }
-  
-  .edit-card-form .form-check-input {
-    margin-right: 10px;
-  }
-  
-  .edit-card-form .btn-primary {
-    width: 100%;
-    padding: 12px;
+    margin-top: 15px;
+}
+
+.form-check-input {
+    margin-right: 12px;
+    width: 18px;
+    height: 18px;
+}
+
+/* Buton Stil */
+.btn {
+    align-self: center;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    color: #fff;
     background-color: #007bff;
     border: none;
-    border-radius: 5px;
-    color: white;
-    font-size: 1.1em;
+    border-radius: 6px;
     cursor: pointer;
-  }
-  
-  .edit-card-form .btn-primary:hover {
-    background-color: #0056b3;
-  }
-  
-  .card-fields h3 {
-    margin-top: 20px;
-    margin-bottom: 15px;
-    color: #007bff;
-  }
-  
+    margin-top: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .btn:hover {
+        background-color: #0056b3;
+        transform: translateY(-3px);
+    }
+
+/* Responsive Ayarlar */
+@media (max-width: 480px) {
+    .edit-card-container {
+        padding: 20px;
+        margin: 20px;
+    }
+
+        .edit-card-container h2 {
+            font-size: 1.75rem;
+        }
+
+    .btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
