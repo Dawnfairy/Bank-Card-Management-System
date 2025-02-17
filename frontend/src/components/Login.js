@@ -1,5 +1,5 @@
 // src/components/Login.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
@@ -12,52 +12,64 @@ const Login = () => {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const { loginStorage } = useContext(AuthContext);
+    const [loginCompleted, setLoginCompleted] = useState(false);
+    const { auth, loginStorage, hasPermission } = useContext(AuthContext);
 
+    useEffect(() => {
+        if (loginCompleted) {
+
+            if (!hasPermission('AuthController', 'Login')) {
+                alert('Giris yapmak icin yetkiniz yok.');
+            } else {
+            navigate('/cards');
+            }
+        }
+    }, [auth, loginCompleted, hasPermission, navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
 
         try {
-            // Login API çaðrýsýný dýþarýda tanýmlý response deðiþkenine atýyoruz.
-            let response;
-            try {
-                response = await loginApi({ userName, password });
-                console.log('response:', response);
-            } catch (unauthError) {
-                throw new Error('Kullanici adi veya sifre hatali.');
+            const response = await loginApi({ userName, password });
+
+
+            if (!response || response.error || !response.data || !response.data.data) {
+                setError(response?.data?.Message || 'Giriþ baþarýsýz: Geçersiz yanýt.');
+                return;
             }
 
-            const { token, role } = response.data;
+
+            const { token, role } = response.data.data;
             if (!token) {
-                throw new Error('Token alinamadi.'); 
+                setError('Token alýnamadý.');
+                return;
             }
 
-            // Ýzin bilgilerini çekiyoruz.
-            let permissionsResponse;
-            try {
-                permissionsResponse = await getRolPermissionsById(role);
-            } catch (innerError) {
-                throw new Error('Yetkisiz giris: izin bilgilerine ulasilamadi.');
+            console.log('Token:', token);
+            console.log('Role:', role);
+
+            const permissionsResponse = await getRolPermissionsById(role);
+
+
+            if (!permissionsResponse || !permissionsResponse.data || !Array.isArray(permissionsResponse.data.data)) {
+                setError(permissionsResponse?.data?.message || 'Yetkisiz giriþ: izin bilgilerine ulaþýlamadý.');
+                return;
             }
 
-            console.log('permissionsResponse:', permissionsResponse);
-            const permissions = permissionsResponse.data;
-            if (!permissions) {
-                throw new Error('Yetkisiz giris: izin bilgileri bos.');
-            }
-            console.log('permissions:', permissions);
 
-            // Oturum bilgilerini güncelliyoruz.
+            const permissions = permissionsResponse.data.data;
+
             loginStorage(token, role, permissions, userName);
-            console.log('role:', role);
-            console.log('token:', token);
 
-            navigate('/cards');
+            setLoginCompleted(true);
+
         } catch (err) {
-            console.error('Giris hatasi:', err);
-            setError(err.message || 'Kullanici adi veya sifre hatali.');
+            if (err.response && err.response.status === 401) {
+                setError(err.response.data.Message || 'Yetkisiz eriþim.');
+            } else {
+                setError(err.message || 'Kullanýcý adý veya þifre hatalý.');
+            }
         }
     };
 

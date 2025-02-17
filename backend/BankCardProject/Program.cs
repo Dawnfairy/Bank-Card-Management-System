@@ -45,6 +45,7 @@ builder.Services.AddScoped<ICreditCardRepository, CreditCardRepository>();
 builder.Services.AddScoped<IBankCardService, BankCardService>();
 builder.Services.AddScoped<IBankCardRepository, BankCardRepository>();
 builder.Services.AddScoped<IErrorLogService, ErrorLogService>();
+builder.Services.AddScoped<IErrorLogRepository, ErrorLogRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -87,7 +88,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-// Uygulama baþlangýcýnda Redis'e izinleri yükleyin:
+// Uygulama baþlangýcýnda Redis'e izinleri
 using (var scope = app.Services.CreateScope())
 {
     var permissionService = scope.ServiceProvider.GetRequiredService<IRolePermissionService>();
@@ -97,7 +98,7 @@ using (var scope = app.Services.CreateScope())
 // CORS kullanma (Middleware)
 app.UseCors("AllowReactApp");
 
-app.UseMiddleware<ExceptionHandlingMiddleware>();
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

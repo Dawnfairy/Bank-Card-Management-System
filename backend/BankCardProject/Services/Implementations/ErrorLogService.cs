@@ -1,44 +1,50 @@
 ﻿using BankCardProject.Data;
 using BankCardProject.Helpers;
 using BankCardProject.Models;
+using BankCardProject.Repositories.Interfaces;
 using BankCardProject.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Eventing.Reader;
 using System.Net;
 
 namespace BankCardProject.Services.Implementations
 {
     public class ErrorLogService : IErrorLogService
     {
-        private readonly AppDbContext _dbContext;
+        private readonly IErrorLogRepository _errorLogRepository;
 
-        public ErrorLogService(AppDbContext dbContext)
+        public ErrorLogService(IErrorLogRepository errorLogRepository)
         {
-            _dbContext = dbContext;
+            _errorLogRepository = errorLogRepository;
         }
 
-        public async Task LogErrorAsync(Exception ex)
+
+        public async Task LogErrorAsync(Exception ex, bool isError)
         {
             HttpStatusCode statusCode = HttpStatusCode.InternalServerError;
-            int errorCode = 0;
 
             if (ex is CustomException customEx)
             {
                 statusCode = customEx.StatusCode;
-                errorCode = customEx.ErrorCode;
             }
 
             var log = new ErrorLog
             {
-                ErrorType = ex.GetType().Name,  // Hata tipi
-                StatusCode = (int)statusCode,   // HTTP kodu
-                Message = ex.Message,
-                StackTrace = ex.StackTrace,
-                CreatedAt = DateTime.Now
+                LogType = isError ? "ErrorLog" : "WarningLog",  // Log tipi: "ErrorLog" veya "WarningLog"
+                ErrorType = ex.GetType().Name,                   // Hata tipi
+                StatusCode = (int)statusCode,                    // HTTP durum kodu
+                Message = ex.Message,                            // Hata mesajı
+                StackTrace = ex.StackTrace,                      // Hata detayları
+                CreatedAt = DateTime.UtcNow,                     // Log kaydının zamanı
+
+                // Opsiyonel alanlar (ilgili bilgiler varsa set edilebilir)
+                //HttpMethod = string.Empty,    // Örnek: "GET", "POST", vb.
+                //RequestPath = string.Empty,   // İstek yapılan URL
+                //ClientIP = string.Empty,      // İstemcinin IP adresi
+                //ResponseTime = 0              // Yanıt süresi (ms)
             };
 
-
-            _dbContext.ErrorLogs.Add(log);
-            await _dbContext.SaveChangesAsync();
+            await _errorLogRepository.SaveLogAsync(log);
         }
     }
 

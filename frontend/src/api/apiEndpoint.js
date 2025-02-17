@@ -25,7 +25,7 @@ const endpoints = {
         update: (id) => `/api/user/update/${id}`,
     },
     rolPermissions: {
-        getById: (id) => `/api/rolPermissions/byId/${id}`
+        getById: (id) => `/api/rolePermissions/byId/${id}`
     }
 };
 

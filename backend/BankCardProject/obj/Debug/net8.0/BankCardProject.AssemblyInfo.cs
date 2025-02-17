@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BankCardProject")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f141d856965f78124cc641e2586fd621fdf63bc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+016bf06525ab5930a301ff6d9eb2eebff22b9d38")]
 [assembly: System.Reflection.AssemblyProductAttribute("BankCardProject")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BankCardProject")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

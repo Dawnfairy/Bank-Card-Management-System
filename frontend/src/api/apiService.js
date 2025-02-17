@@ -61,7 +61,7 @@ export const getAllUsers = async () => {
 export const getUserById = async (id) => {
     return await apiClient.get(endpoints.user.getById(id));
 };
-
+ 
 export const createUser = async (data) => {
     return await apiClient.post(endpoints.user.create, data);
 };

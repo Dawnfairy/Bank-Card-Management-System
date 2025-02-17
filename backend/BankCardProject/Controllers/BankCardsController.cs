@@ -24,28 +24,24 @@ namespace BankCardProject.Controllers
         /// Tüm DebitCard'leri getirir.
         /// </summary>
         [HttpGet("all")]
-        public async Task<ActionResult<List<BankCardDto>>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var dto = await _service.GetAllCardsAsync();
-            return Ok(dto);
+            var response = await _service.GetAllCardsAsync();
+            return Ok(response);
         }
 
         /// <summary>
         /// Belirli bir DebitCard'i Id'ye göre getirir.
         /// </summary>
         [HttpGet("byId/{id}")]
-        public async Task<ActionResult<BankCardDto>> GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             if (id <= 0)
             {
                 throw new InvalidParameterException(Resources.ERR1015);
             }
-            var dto = await _service.GetCardByIdAsync(id);
-
-            if (dto == null)
-                throw new NotFoundException(Resources.CRUD2001);
-
-            return Ok(dto);
+            var response = await _service.GetCardByIdAsync(id);
+            return Ok(response);
         }
 
         /// <summary>
@@ -57,9 +53,9 @@ namespace BankCardProject.Controllers
             if (dto == null)
                 throw new BadRequestException(Resources.CRUD1002);
 
-            await _service.CreateCardAsync(dto);
+            var response = await _service.CreateCardAsync(dto);
 
-            return Ok(Resources.CRUD1000);
+            return Ok(response);
         }
 
         /// <summary>
@@ -76,9 +72,8 @@ namespace BankCardProject.Controllers
             {
                 throw new BadRequestException(Resources.CRUD3002);
             }
-            await _service.UpdateCardAsync(id, cardDto);
-
-            return Ok(Resources.CRUD3000);
+            var response = await _service.UpdateCardAsync(id, cardDto);
+            return Ok(response);
         }
 
         /// <summary>
@@ -91,9 +86,8 @@ namespace BankCardProject.Controllers
             {
                 throw new InvalidParameterException(Resources.ERR1015);
             }
-            await _service.DeleteCardAsync(id);
-     
-            return Ok(Resources.CRUD4000);
+            var response = await _service.DeleteCardAsync(id);
+            return Ok(response);
         }
     }
 }

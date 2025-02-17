@@ -6,7 +6,6 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
 
 
-    // SessionStorage’dan baþlangýç deðerlerini alabilirsiniz.
     const [auth, setAuth] = useState({
         token: sessionStorage.getItem('token') || null,
         role: sessionStorage.getItem('role') || null,
@@ -23,7 +22,7 @@ export const AuthProvider = ({ children }) => {
         setAuth({ token, role, permissions, userName });
     };
 
-    // Logout fonksiyonu: SessionStorage temizlenir ve auth state sýfýrlanýr.
+
     const logoutStorage = () => {
         sessionStorage.clear();
         setAuth({ token: null, role: null, permissions: [], userName: null });

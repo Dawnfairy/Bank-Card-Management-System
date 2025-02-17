@@ -17,8 +17,6 @@ const Navbar = () => {
         welcomeMessage = `Hosgeldiniz Sube ${userName}`;
     } else if (auth.role === "1" || auth.role === 1) {
         welcomeMessage = `Hosgeldiniz Admin ${userName}`;
-    } else {
-        welcomeMessage = `Hosgeldiniz ${userName}`;
     }
     const handleLogout = async () => {
         try {
@@ -55,7 +53,7 @@ const Navbar = () => {
                             </li>
                         )}
                 </ul>
-                {auth.token && (
+                {auth.token && hasPermission('AuthController', 'Login') && (
                     <div className="navbar-welcome">
                         <span>{welcomeMessage}</span>
                         <button className="logout-button" onClick={handleLogout}>
@@ -64,6 +62,7 @@ const Navbar = () => {
 
                     </div>
                 )}
+
             </div>
         </nav>
     );

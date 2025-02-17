@@ -30,7 +30,7 @@ const CardsList = () => {
 
             if (creditResponse.status === "fulfilled") {
                 console.log("kredi kartları:", creditResponse.value.data);
-                const fetchedCreditCards = creditResponse.value.data.map(card =>
+                const fetchedCreditCards = creditResponse.value.data.data.map(card =>
                 ({
                     ...card,
                     cardType: 2
@@ -39,7 +39,7 @@ const CardsList = () => {
 
             } else {
                 setCreditError(
-                    creditResponse.reason.response?.data?.Message || "Bilinmeyen bir hata oluştu."
+                    creditResponse.reason.response?.data?.message || "Bilinmeyen bir hata oluştu."
                 );
                 setCreditCards([]);
             }
@@ -47,7 +47,7 @@ const CardsList = () => {
 
             if (bankResponse.status === "fulfilled") {
                 console.log("banka kartları:", bankResponse.value.data);
-                const fetchedBankCards = bankResponse.value.data.map(card =>
+                const fetchedBankCards = bankResponse.value.data.data.map(card =>
                 ({
                     ...card,
                     cardType: 1
@@ -56,7 +56,7 @@ const CardsList = () => {
 
             } else {
                 setBankError(
-                    bankResponse.reason.response?.data?.Message || "Bilinmeyen bir hata oluştu."
+                    bankResponse.reason.response?.data?.message || "Bilinmeyen bir hata oluştu."
                 );
                 setBankCards([]);
             }
@@ -168,7 +168,7 @@ const CardsList = () => {
                                     <td>{new Date(card.dueDate).toLocaleDateString()}</td>
                                     <td>{card.installments ? 'Var' : 'Yok'}</td>
                                     <td>
-                                        {hasPermission('CreditCardController', 'GetById') && (
+                                        {hasPermission('CreditCardController', 'UpdateById') && (
                                             <button
                                                 className="edit-button"
                                                 onClick={() => navigate(`/edit/credit/${card.id}`)}
@@ -228,7 +228,7 @@ const CardsList = () => {
                                     <td>{card.withdrawalLimit} TL</td>
                                     <td>{card.isContactless ? 'Var' : 'Yok'}</td>
                                     <td>
-                                        {hasPermission('BankCardController', 'GetById') && (
+                                        {hasPermission('BankCardController', 'UpdateById') && (
                                             <button
                                                 className="edit-button"
                                                 onClick={() => navigate(`/edit/bank/${card.id}`)}

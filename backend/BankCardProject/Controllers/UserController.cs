@@ -1,5 +1,6 @@
 ﻿using BankCardProject.DTOs;
 using BankCardProject.Exceptions;
+using BankCardProject.Models;
 using BankCardProject.Properties;
 using BankCardProject.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -12,52 +13,62 @@ namespace BankCardProject.Controllers
     {
         private readonly IUserService _service;
 
-        public UserController(IUserService service) 
+        public UserController(IUserService service)
         {
-
             _service = service;
         }
 
+        /// <summary>
+        /// Tüm kullanıcıları getirir.
+        /// </summary>
         [HttpGet("all")]
-        public async Task<ActionResult<List<UserDto>>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var dto = await _service.GetAllUsersAsync();
-            return Ok(dto);
+            var response = await _service.GetAllUsersAsync();
+            return Ok(response);
         }
 
+        /// <summary>
+        /// Belirli bir kullanıcıyı ID'ye göre getirir.
+        /// </summary>
         [HttpGet("byId/{id}")]
-        public async Task<ActionResult<UserDto>> GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             if (id <= 0)
             {
                 throw new InvalidParameterException(Resources.ERR1015);
             }
-            var dto = await _service.GetUserByIdAsync(id);
-            if (dto == null)
-                throw new NotFoundException(Resources.CRUD2001);
-            return Ok(dto);
+
+            var response = await _service.GetUserByIdAsync(id);
+            return Ok(response);
         }
 
+        /// <summary>
+        /// Yeni bir kullanıcı oluşturur.
+        /// </summary>
         [HttpPost("create")]
-        public async Task<IActionResult> Create(UserDto dto)
+        public async Task<IActionResult> Create([FromBody] UserDto dto)
         {
             if (dto == null)
                 throw new BadRequestException(Resources.CRUD1002);
-            await _service.CreateUserAsync(dto);
-            return Ok(Resources.CRUD1000);
+
+            var response = await _service.CreateUserAsync(dto);
+            return Ok(response);
         }
 
-
-        [HttpPut("update/{id}")]
+        /// <summary>
+        /// Kullanıcıyı siler (soft delete).
+        /// </summary>
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             if (id <= 0)
             {
                 throw new InvalidParameterException(Resources.ERR1015);
             }
-            await _service.DeleteUserAsync(id);
-            return Ok(Resources.CRUD1001);
-        }
 
+            var response = await _service.DeleteUserAsync(id);
+            return Ok(response);
+        }
     }
 }

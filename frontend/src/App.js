@@ -7,6 +7,8 @@ import CardsList from './components/CardsList';
 import EditCard from './components/EditCard';
 import Login from './components/Login';
 import ProtectedRoute from './components/ProtectedRoute';
+import PublicRoute from './components/PublicRoute';
+import Home from './components/Home';
 import './App.css';
 
 function App() {
@@ -16,7 +18,20 @@ function App() {
                 <Navbar />
                 <div className="container">
                     <Routes>
-                        <Route path="/" element={<Login />} />
+                        <Route path="/"
+                            element={
+                                <PublicRoute>
+
+                                    <Home />
+                                </PublicRoute>
+
+                               } />
+                        <Route path="/login"
+                            element={
+                                <PublicRoute>
+                                    <Login />
+                                    </PublicRoute>
+                                } />
                         <Route path="/cards"
                             element={
                                 <ProtectedRoute>

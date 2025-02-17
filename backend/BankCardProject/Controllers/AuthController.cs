@@ -23,24 +23,19 @@ namespace BankCardProject.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserDto dto)  
+        public async Task<IActionResult> Login([FromBody] UserDto dto)
         {
-            if (dto == null)
-                throw new BadRequestException(Resources.CRUD1002);
+            var response = await _service.LoginAsync(dto);
+            return Ok(response);
+         
 
-            var result = await _service.LoginAsync(dto);
-            return Ok(new { token = result.Token, role = result.Role });
         }
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout([FromQuery] string userName)
         {
-            var result = await _service.LogoutAsync(userName);
-            return result ? Ok("Çıkış başarılı!") : BadRequest("Çıkış işlemi başarısız.");
+            var response = await _service.LogoutAsync(userName);
+            return Ok(response);
         }
-
-
-
-
     }
 }

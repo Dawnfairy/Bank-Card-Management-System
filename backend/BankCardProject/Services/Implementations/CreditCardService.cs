@@ -13,59 +13,85 @@ namespace BankCardProject.Services.Implementations
         private readonly ICreditCardRepository _creditCardRepository;
         private readonly IMapper _mapper;
 
-        public CreditCardService(ICreditCardRepository CreditCardRepository, IMapper mapper)
+        public CreditCardService(ICreditCardRepository creditCardRepository, IMapper mapper)
         {
-            _creditCardRepository = CreditCardRepository;
+            _creditCardRepository = creditCardRepository;
             _mapper = mapper;
         }
 
-
-        public async Task<List<CreditCardDto>> GetAllCardsAsync()
+        public async Task<ApiResponse<List<CreditCardDto>>> GetAllCardsAsync()
         {
-            List<CreditCard> creditCards = await _creditCardRepository.GetAllAsync();
-            if(creditCards == null || creditCards.Count == 0)
+            var creditCards = await _creditCardRepository.GetAllAsync();
+
+            if (creditCards == null || !creditCards.Any())
             {
                 throw new NotFoundException(Resources.CRUD2004);
             }
-            List<CreditCardDto> dtoList = _mapper.Map<List<CreditCardDto>>(creditCards);
-            return dtoList ?? throw new OperationFailedException(Resources.ERR1005);
+
+            var dtoList = _mapper.Map<List<CreditCardDto>>(creditCards);
+            return ApiResponse<List<CreditCardDto>>.SuccessResponse(dtoList);
         }
 
-        public async Task<CreditCardDto> GetCardByIdAsync(int id)
+        public async Task<ApiResponse<CreditCardDto>> GetCardByIdAsync(int id)
         {
-            CreditCard creditCard = await _creditCardRepository.GetByIdAsync(id) ?? throw new NotFoundException(Resources.CRUD2001);
-            CreditCardDto dto = _mapper.Map<CreditCardDto>(creditCard) ?? throw new OperationFailedException(Resources.ERR1005);
-            return dto;
+            var creditCard = await _creditCardRepository.GetByIdAsync(id);
+
+            if (creditCard == null)
+            {
+                throw new NotFoundException(Resources.CRUD2001);
+            }
+
+            var dto = _mapper.Map<CreditCardDto>(creditCard);
+            return ApiResponse<CreditCardDto>.SuccessResponse(dto);
         }
 
-
-        public async Task CreateCardAsync(CreditCardDto dto)
+        public async Task<ApiResponse<bool>> CreateCardAsync(CreditCardDto dto)
         {
             bool isCardExists = await _creditCardRepository.ExistsAsync(dto.CardNumber);
             if (isCardExists)
             {
                 throw new DuplicateRecordException(Resources.CRUD1004);
             }
-            CreditCard creditCard = _mapper.Map<CreditCard>(dto) ?? throw new OperationFailedException(Resources.ERR1005);
+
+            var creditCard = _mapper.Map<CreditCard>(dto);
             await _creditCardRepository.CreateAsync(creditCard);
+
+            return ApiResponse<bool>.SuccessResponse(true);
         }
 
-        public async Task UpdateCardAsync(int id, CreditCardDto dto)
+        public async Task<ApiResponse<bool>> UpdateCardAsync(int id, CreditCardDto dto)
         {
-            var existingCreditCard = await _creditCardRepository.GetByIdAsync(id) ?? throw new NotFoundException(Resources.CRUD2001);
+            var existingCreditCard = await _creditCardRepository.GetByIdAsync(id);
+
+            if (existingCreditCard == null)
+            {
+                throw new NotFoundException(Resources.CRUD2001);
+            }
+
             _mapper.Map(dto, existingCreditCard);
             await _creditCardRepository.UpdateAsync(existingCreditCard);
+
+            return ApiResponse<bool>.SuccessResponse(true);
         }
 
-        public async Task DeleteCardAsync(int id)
+        public async Task<ApiResponse<bool>> DeleteCardAsync(int id)
         {
-            var existingCreditCard = await _creditCardRepository.GetByIdAsync(id) ?? throw new NotFoundException(Resources.CRUD2001);
+            var existingCreditCard = await _creditCardRepository.GetByIdAsync(id);
+
+            if (existingCreditCard == null)
+            {
+                throw new NotFoundException(Resources.CRUD2001);
+            }
+
             if (!existingCreditCard.IsActive)
             {
                 throw new OperationFailedException(Resources.CRUD4003);
             }
+
             existingCreditCard.IsActive = false;
             await _creditCardRepository.UpdateAsync(existingCreditCard);
+
+            return ApiResponse<bool>.SuccessResponse(true);
         }
     }
 }

@@ -19,12 +19,7 @@ namespace BankCardProject.Repositories.Implementations
 
         public async Task<List<RolePermission>> GetAllAsync()
         {
-            if (_context == null)
-            {
-                throw new DataAccessException(Resources.ERR1008);
-            }
-            var rolePermissionList = await _context.RolePermissions.ToListAsync();
-            return rolePermissionList;
+            return await _context.RolePermissions.ToListAsync();
         }
 
         public async Task<List<RolePermission>> GetPermissionsByRoleIdAsync(int roleId)

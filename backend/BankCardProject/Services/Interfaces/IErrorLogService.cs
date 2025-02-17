@@ -2,6 +2,6 @@
 {
     public interface IErrorLogService
     {
-        Task LogErrorAsync(Exception ex);
+        Task LogErrorAsync(Exception ex, bool isError);
     }
 }

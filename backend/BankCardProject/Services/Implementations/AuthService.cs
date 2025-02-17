@@ -1,14 +1,12 @@
 ﻿using BankCardProject.DTOs;
 using BankCardProject.Exceptions;
+using BankCardProject.Models;
 using BankCardProject.Properties;
 using BankCardProject.Repositories.Interfaces;
 using BankCardProject.Services.Interfaces;
-using BankCardProject.DTOs;
 using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
-using System.CodeDom.Compiler;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 
@@ -29,40 +27,59 @@ namespace BankCardProject.Services.Implementations
             _redisDb = redis.GetDatabase();
 
         }
-        public async Task<LoginResult> LoginAsync(UserDto dto)
+        public async Task<ApiResponse<LoginResultDto>> LoginAsync(UserDto dto)
         {
-            //Authentication
-            var user = await _userRepository.GetUserByUsernameAsync(dto.UserName);
-
-            if (user == null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
+            if (dto == null || string.IsNullOrEmpty(dto.UserName) || string.IsNullOrEmpty(dto.Password))
             {
-                throw new UnauthorizedException(Resources.ERR1011);
+                throw new BadRequestException(Resources.CRUD1002);
             }
 
-            int role = user.RoleId;
-            var token = GenerateJwtToken(user.UserName, role);
+            var user = await _userRepository.GetUserByUsernameAsync(dto.UserName)
+                    ?? throw new UnauthorizedException("Kullanıcı adı veya şifre hatalı.");
 
-            string redisKey = $"user:{user.UserName}";
-            await _redisDb.HashSetAsync(redisKey, new HashEntry[]
+            if (!BCrypt.Net.BCrypt.Verify(dto.Password, user.Password))
+            {
+                throw new UnauthorizedException("Kullanıcı adı veya şifre hatalı.");
+            }
+
+            var token = GenerateJwtToken(user.UserName, user.RoleId);
+
+            await _redisDb.HashSetAsync($"user:{user.UserName}", new HashEntry[]
             {
                 new HashEntry("token", token),
-                new HashEntry("role", role)
+                new HashEntry("role", user.RoleId)
             });
 
-            await _redisDb.KeyExpireAsync(redisKey, TimeSpan.FromHours(1));
+            await _redisDb.KeyExpireAsync($"user:{user.UserName}", TimeSpan.FromHours(1));
 
-            return new LoginResult
-            {
-                Token = token,
-                Role = role
-            };
+            return ApiResponse<LoginResultDto>.SuccessResponse(new LoginResultDto { Token = token, Role = user.RoleId });
 
         }
 
-        public async Task<bool> LogoutAsync(string userName)
+        public async Task<ApiResponse<bool>> LogoutAsync(string userName)
         {
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new UnauthorizedException("Kullanıcı adı veya şifre hatalı.");
+            }
+
             string redisKey = $"user:{userName}";
-            return await _redisDb.KeyDeleteAsync(redisKey);
+
+            try
+            {
+                bool isDeleted = await _redisDb.KeyDeleteAsync(redisKey);
+
+                if (!isDeleted)
+                {
+                    throw new UnauthorizedException("Kullanıcı adı veya şifre hatalı.");
+                }
+
+                return ApiResponse<bool>.SuccessResponse(true);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Redis bağlantı hatası oluştu.", ex);
+            }
         }
 
         private string GenerateJwtToken(string userName, int role)

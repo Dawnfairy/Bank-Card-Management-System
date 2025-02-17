@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BankCardProject.Models
 {
-    public class Base
+    public abstract class Base
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

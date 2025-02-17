@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
 using BankCardProject.DTOs;
 using BankCardProject.Models;
+using BankCardProject.Properties;
 using BankCardProject.Repositories.Interfaces;
 using BankCardProject.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Newtonsoft.Json;
 using StackExchange.Redis;
+using System.Collections.Generic;
 
 namespace BankCardProject.Services.Implementations
 {
@@ -41,7 +44,7 @@ namespace BankCardProject.Services.Implementations
             }
         }
 
-        public async Task<List<RolePermission>> GetPermissionsByRoleIdAsync(int roleId)
+        public async Task<ApiResponse<List<RolePermission>>> GetPermissionsByRoleIdAsync(int roleId)
         {
             string redisKey = $"rolePermissions:{roleId}";
 
@@ -52,7 +55,8 @@ namespace BankCardProject.Services.Implementations
                 var cachedPermissionsDto = JsonConvert.DeserializeObject<List<RolePermissionDto>>(permissionsJson);
                 var cachedPermissions = _mapper.Map<List<RolePermission>>(cachedPermissionsDto);
 
-                return cachedPermissions;
+                return ApiResponse<List<RolePermission>>.SuccessResponse(cachedPermissions);
+
             }
             else
             {
@@ -60,14 +64,16 @@ namespace BankCardProject.Services.Implementations
                 var permissionsFromDb = await _rolePermissionRepository.GetPermissionsByRoleIdAsync(roleId);
                 if (permissionsFromDb == null || !permissionsFromDb.Any())
                 {
-                    return new List<RolePermission>();
+                    return ApiResponse<List<RolePermission>>.SuccessResponse(new List<RolePermission>());
+
                 }
 
                 var permissionsDto = _mapper.Map<List<RolePermissionDto>>(permissionsFromDb);
                 var serializedPermissions = JsonConvert.SerializeObject(permissionsDto);
                 await _redisDb.StringSetAsync(redisKey, serializedPermissions, TimeSpan.FromHours(1));
 
-                return permissionsFromDb;
+                return ApiResponse<List<RolePermission>>.SuccessResponse(permissionsFromDb);
+
             }
         }
     }

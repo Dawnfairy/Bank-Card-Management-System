@@ -1,6 +1,6 @@
 ﻿namespace BankCardProject.DTOs
 {
-    public class LoginResult
+    public class LoginResultDto
     {
         public string Token { get; set; }
         public int Role { get; set; }

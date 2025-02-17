@@ -23,7 +23,7 @@ const EditCard = () => {
             } else {
                 throw new Error('Geçersiz kart türü');
             }
-            setCard(response.data);
+            setCard(response.data.data);
         } catch (err) {
             console.error('Kartı çekerken hata oluştu:', err);
             setError(true);

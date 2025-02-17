@@ -106,6 +106,15 @@ namespace BankCardProject.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Kullanıcı başarıyla oluşturuldu..
+        /// </summary>
+        public static string CRUD1005 {
+            get {
+                return ResourceManager.GetString("CRUD1005", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kayıt başarıyla getirildi..
         /// </summary>
         public static string CRUD2000 {

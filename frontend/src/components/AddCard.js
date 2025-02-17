@@ -1,4 +1,3 @@
-// src/components/AddCard.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +9,6 @@ const AddCard = () => {
     const navigate = useNavigate();
     const [cardType, setCardType] = useState('');
 
-    // CreditCardDto için state (Id, IsActive, CreatedAt gibi alanlar tipik olarak backend tarafından atanır)
     const [creditCardData, setCreditCardData] = useState({
         CardNumber: '',
         CardHolderName: '',
@@ -26,7 +24,6 @@ const AddCard = () => {
         Installments: false,
     });
 
-    // BankCardDto için state
     const [bankCardData, setBankCardData] = useState({
         CardNumber: '',
         CardHolderName: '',
@@ -71,7 +68,7 @@ const AddCard = () => {
 
     const handleCardTypeChange = (e) => setCardType(e.target.value);
 
-    // Genel input değişimi: ilgili state setter fonksiyonu parametre olarak veriliyor
+    // Genel input değişimi
     const handleInputChange = (e, setState) => {
         const { name, value, type, checked } = e.target;
         setState((prevData) => ({
@@ -88,7 +85,7 @@ const AddCard = () => {
             return;
         }
         const isCredit = cardType === 'Credit';
-        // Payload, kart türüne göre düzenleniyor; ayrıca cardType alanı backend için ayrım olarak gönderiliyor.
+
         const payload = isCredit
             ? { ...creditCardData, cardType: 2 } // 2: Kredi Kartı
             : { ...bankCardData, cardType: 1 };   // 1: Banka Kartı
@@ -99,7 +96,7 @@ const AddCard = () => {
 
         try {
             const response = await apiClient.post(endpoint, payload);
-            console.log('Kart başarıyla eklendi:', response.data);
+            console.log('Kart başarıyla eklendi:', response.data.data);
             alert('Kart başarıyla eklendi!');
 
             // Form sıfırlama işlemi
@@ -139,20 +136,16 @@ const AddCard = () => {
 
     const getInputType = (key) => {
         const lower = key.toLowerCase();
-        // Tarih alanları için 'date'
         if (lower.includes('date')) {
             return 'date';
         }
-        // Sayısal alanlar için: limit, balance, payment, rate, withdrawal gibi kelimeler içeriyorsa
         else if (lower.includes('limit') || lower.includes('balance') || lower.includes('payment') || lower.includes('rate') || lower.includes('withdrawal')) {
             return 'number';
         }
-        // Diğer alanlar için varsayılan olarak 'text'
         return 'text';
     };
 
 
-    // Seçilen kart türüne göre mevcut veriyi, setter fonksiyonunu ve etiketleri belirliyoruz.
     const currentCardData = cardType === 'Credit' ? creditCardData : bankCardData;
     const setCurrentCardData = cardType === 'Credit' ? setCreditCardData : setBankCardData;
     const currentLabels = cardType === 'Credit' ? creditCardLabels : bankCardLabels;

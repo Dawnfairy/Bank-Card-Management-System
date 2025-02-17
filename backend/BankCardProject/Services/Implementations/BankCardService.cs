@@ -20,52 +20,77 @@ namespace BankCardProject.Services.Implementations
         }
 
 
-        public async Task<List<BankCardDto>> GetAllCardsAsync()
+        public async Task<ApiResponse<List<BankCardDto>>> GetAllCardsAsync()
         {
             List<BankCard> bankCards = await _bankCardRepository.GetAllAsync();
-            if (bankCards == null || bankCards.Count == 0)
+            if (bankCards == null || !bankCards.Any())
             {
                 throw new NotFoundException(Resources.CRUD2004);
             }
-            List<BankCardDto> dtoList = _mapper.Map<List<BankCardDto>>(bankCards);
-            return dtoList ?? throw new OperationFailedException(Resources.ERR1005);
+            var dtoList = _mapper.Map<List<BankCardDto>>(bankCards);
+            return ApiResponse<List<BankCardDto>>.SuccessResponse(dtoList);
         }
 
-        public async Task<BankCardDto> GetCardByIdAsync(int id)
+        public async Task<ApiResponse<BankCardDto>> GetCardByIdAsync(int id)
         {
-            BankCard bankCard = await _bankCardRepository.GetByIdAsync(id) ?? throw new NotFoundException(Resources.CRUD2001);
-            BankCardDto dto = _mapper.Map<BankCardDto>(bankCard) ?? throw new OperationFailedException(Resources.ERR1005);
-            return dto;
+            var bankCard = await _bankCardRepository.GetByIdAsync(id);
+
+            if (bankCard == null)
+            {
+                throw new NotFoundException(Resources.CRUD2001);
+            }
+
+            var dto = _mapper.Map<BankCardDto>(bankCard);
+            return ApiResponse<BankCardDto>.SuccessResponse(dto);
         }
 
-
-        public async Task CreateCardAsync(BankCardDto dto)
+        public async Task<ApiResponse<bool>> CreateCardAsync(BankCardDto dto)
         {
             bool isCardExists = await _bankCardRepository.ExistsAsync(dto.CardNumber);
             if (isCardExists)
             {
-                throw new DuplicateRecordException(Resources.CRUD1004);
+                throw new BadRequestException(Resources.CRUD1002);
             }
-            BankCard bankCard = _mapper.Map<BankCard>(dto) ?? throw new OperationFailedException(Resources.ERR1005);
+
+            var bankCard = _mapper.Map<BankCard>(dto);
             await _bankCardRepository.CreateAsync(bankCard);
+
+            return ApiResponse<bool>.SuccessResponse(true);
         }
 
-        public async Task UpdateCardAsync(int id,BankCardDto dto)
+        public async Task<ApiResponse<bool>> UpdateCardAsync(int id, BankCardDto dto)
         {
-            var existingBankCard = await _bankCardRepository.GetByIdAsync(id) ?? throw new NotFoundException(Resources.CRUD2001);
+            var existingBankCard = await _bankCardRepository.GetByIdAsync(id);
+
+            if (existingBankCard == null)
+            {
+                throw new NotFoundException(Resources.CRUD2001);
+            }
+
             _mapper.Map(dto, existingBankCard);
             await _bankCardRepository.UpdateAsync(existingBankCard);
+
+            return ApiResponse<bool>.SuccessResponse(true);
         }
 
-        public async Task DeleteCardAsync(int id)
+        public async Task<ApiResponse<bool>> DeleteCardAsync(int id)
         {
-            var existingBankCard = await _bankCardRepository.GetByIdAsync(id) ?? throw new NotFoundException(Resources.CRUD2001);
+            var existingBankCard = await _bankCardRepository.GetByIdAsync(id);
+
+            if (existingBankCard == null)
+            {
+                throw new NotFoundException(Resources.CRUD2001);
+            }
+
             if (!existingBankCard.IsActive)
             {
-                throw new OperationFailedException(Resources.CRUD4003);
+                throw new NotFoundException(Resources.CRUD2001);
             }
+
             existingBankCard.IsActive = false;
             await _bankCardRepository.UpdateAsync(existingBankCard);
+
+            return ApiResponse<bool>.SuccessResponse(true);
         }
     }
 }

@@ -186,6 +186,9 @@
   <data name="CRUD1000" xml:space="preserve">
     <value>Kayıt başarıyla oluşturuldu.</value>
   </data>
+  <data name="CRUD1005" xml:space="preserve">
+    <value>Kullanıcı başarıyla oluşturuldu.</value>
+  </data>
   <data name="CRUD1003" xml:space="preserve">
     <value>Aynı kayıt zaten mevcut.</value>
   </data>

@@ -1,4 +1,5 @@
-﻿using BankCardProject.Models;
+﻿using BankCardProject.DTOs;
+using BankCardProject.Models;
 
 namespace BankCardProject.Services.Interfaces
 {
@@ -6,7 +7,7 @@ namespace BankCardProject.Services.Interfaces
     {
         Task LoadPermissionIntoRedisAsync();
 
-        Task<List<RolePermission>> GetPermissionsByRoleIdAsync(int roleId);
+        Task<ApiResponse<List<RolePermission>>> GetPermissionsByRoleIdAsync(int roleId);
 
     }
 }

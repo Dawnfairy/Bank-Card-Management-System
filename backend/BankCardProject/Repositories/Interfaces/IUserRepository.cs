@@ -10,5 +10,9 @@ namespace BankCardProject.Repositories.Interfaces
 
         Task<User> CreateAsync(User card);
         Task<List<User>> GetAllUsersAsync();
+        Task<bool> ExistsAsync(string userName);
+        Task<User?> GetUserByIdAsync(int id);
+
+        Task UpdateAsync(User user);
     }
 }

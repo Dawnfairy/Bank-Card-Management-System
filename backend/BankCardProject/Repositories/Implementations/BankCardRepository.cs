@@ -18,28 +18,16 @@ namespace BankCardProject.Repositories.Implementations
 
         public async Task<List<BankCard>> GetAllAsync()
         {
-            if (_context == null)
-            {
-                throw new DataAccessException(Resources.ERR1008);
-            }
             return await _context.BankCards.Where(card => card.IsActive == true).ToListAsync();
         }
 
         public async Task<BankCard?> GetByIdAsync(int id)
         {
-            if (_context == null)
-            {
-                throw new DataAccessException(Resources.ERR1008);
-            }
             return await _context.BankCards.SingleOrDefaultAsync(c => c.Id == id && c.IsActive);
         }
 
         public async Task<BankCard> CreateAsync(BankCard card)
         {
-            if (_context == null)
-            {
-                throw new DataAccessException(Resources.ERR1008);
-            }
             card.IsActive = true;
             await _context.BankCards.AddAsync(card);
             await _context.SaveChangesAsync();
@@ -48,10 +36,6 @@ namespace BankCardProject.Repositories.Implementations
 
         public async Task UpdateAsync(BankCard card)
         {
-            if (_context == null)
-            {
-                throw new DataAccessException(Resources.ERR1008);
-            }
             _context.BankCards.Update(card);
             await _context.SaveChangesAsync();
         }
@@ -59,14 +43,7 @@ namespace BankCardProject.Repositories.Implementations
 
         public async Task<bool> ExistsAsync(string cardNumber)
         {
-            if (_context == null)
-            {
-                throw new DataAccessException(Resources.ERR1008);
-            }
-            bool isExists = await _context.BankCards
-                            .AnyAsync(c => c.CardNumber == cardNumber && c.IsActive);
-
-            return isExists;
+            return await _context.BankCards.AnyAsync(c => c.CardNumber == cardNumber && c.IsActive);
         }
     }
 }
